@@ -1,0 +1,4 @@
+#sideBar {
+  background: linear-gradient(to bottom, #27342f, #a6cf97);
+  padding: 20px; /* Opsiyonel: Arka planın içeriğe yakın olmasını sağlamak için padding ekledik */
+}

@@ -1,0 +1,46 @@
+#sideBarMain {
+  border-radius: 50px;
+}
+
+.list-group-item:hover {
+  border-radius: 50px;
+  background-color: #27342f; /* Açık gri arka plan */
+}
+
+a.list-group-item:hover span {
+  color: #e8e7de;
+  transition: color 0.5s ease;
+}
+
+a.list-group-item:hover i {
+  color: #e8e7de !important;
+  transition: color 0.5s ease;
+}
+
+.doctorSpan {
+  color: #a6cf97 !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 500;
+}
+
+.docHr {
+  color: #a6cf97 !important;
+}
+
+.listIcon {
+  color: #a6cf97 !important;
+}
+
+span {
+  color: #a6cf97;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+}
+
+i {
+  margin-left: 40px;
+}
+
+hr {
+  color: #a6cf97;
+}

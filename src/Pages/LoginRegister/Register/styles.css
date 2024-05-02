@@ -1,0 +1,49 @@
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+.wrapper {
+  height: 100vh !important;
+  background: linear-gradient(to bottom right, #212529, #a6cf97) !important;
+}
+
+.registerForm {
+  width: 350px !important;
+  border-radius: 20px !important;
+}
+
+.register {
+  width: 300;
+  padding: 20px;
+  height: min-content;
+  border-radius: 5px;
+  color: #212529;
+  background-color: #a6cf97;
+}
+
+a {
+  color: #212529; /* A etiketinin rengini mavi yapar */
+  text-decoration: none;
+}
+
+p {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+button {
+  font-weight: 500 !important;
+  background-color: #212529 !important;
+  transition: color 0.5s ease;
+}
+
+button:hover {
+  transition: all 0.5 ease;
+  color: #a6cf97 !important;
+  background-color: #363c42 !important;
+}
+
+.physicoLogo {
+  width: 60%;
+  padding-right: 400px;
+}
