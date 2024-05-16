@@ -8,7 +8,6 @@
 }
 
 a.list-group-item:hover span {
-  color: #e8e7de;
   transition: color 0.5s ease;
 }
 
@@ -18,7 +17,6 @@ a.list-group-item:hover i {
 }
 
 .doctorSpan {
-  color: #a6cf97 !important;
   font-family: "Montserrat", sans-serif !important;
   font-weight: 500;
 }

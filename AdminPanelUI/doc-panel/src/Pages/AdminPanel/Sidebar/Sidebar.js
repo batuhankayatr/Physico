@@ -25,7 +25,7 @@ function Sidebar() {
             <span>Patient Information</span>
           </a>
           <a
-            href="#"
+            href="/PatientProgram"
             className="list-group-item list-group-item-action py-2 mb-3"
           >
             <i class="listIcon bi bi-book-fill me-3"></i>

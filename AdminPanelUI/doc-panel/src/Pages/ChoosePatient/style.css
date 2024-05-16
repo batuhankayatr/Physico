@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.patient-photo {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 150px;
+}
+
+.wrapper {
+  height: 100vh !important;
+  background: linear-gradient(to bottom right, #212529, #a6cf97) !important;
+}
+
+th {
+  text-align: center;
+  font-weight: 600;
+}
+
+td {
+  text-align: center;
+  font-weight: 300;
+}
+
+i:hover {
+  transition: color 0.5s ease;
+  color: #a6cf97;
+  cursor: pointer;
+}
