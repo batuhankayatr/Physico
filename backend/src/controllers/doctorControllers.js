@@ -67,22 +67,22 @@ const authDoctor = asyncHandler(async(req, res) =>{
 });
 const getPatients = asyncHandler(async (req, res) => {
     try {
-  
-      const doctorId = req.body.doctorId;
-  
-      const doctor = await Doctor.findById(doctorId);
-      
-      if(doctor.doctorId = doctorId){
-        const patient = await Patient.findById(doctorId)
-        res.status(200).json({ success: true, data: patient });
-     
-       }
-      
+        const doctorId = req.body.doctorId;
+
+        const doctor = await Doctor.findById(doctorId);
+
+        if (doctor) {
+            const patients = await Patient.find({ doctor: doctorId });
+            res.status(200).json({ success: true, data: patients });
+        } else {
+            res.status(404).json({ success: false, error: "Doctor not found" });
+        }
     } catch (error) {
-      console.error("Error updating exercise:", error);
-      res.status(500).json({ success: false, error: "Error updating exercise" });
+        console.error("Error getting patients:", error);
+        res.status(500).json({ success: false, error: "Error getting patients" });
     }
-  });
+});
+
 
 
 module.exports = {registerDoctor, authDoctor, getPatients};
