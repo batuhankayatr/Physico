@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-//const Patient = require ("../models/patientModel");
+const Patient = require ("../models/patientModel");
 const generateToken = require("../config/generateToken");
 const Doctor = require ("../models/doctorModel");
 const registerDoctor =asyncHandler( async (req,res) => {
@@ -65,5 +65,24 @@ const authDoctor = asyncHandler(async(req, res) =>{
         throw new Error("Invalid email or password");
     }
 });
+const getPatients = asyncHandler(async (req, res) => {
+    try {
+  
+      const doctorId = req.body.doctorId;
+  
+      const doctor = await Doctor.findById(doctorId);
+      
+      if(doctor.doctorId = doctorId){
+  
+        res.status(200).json({ success: true, data: doctor.patient });
+     
+       }
+      
+    } catch (error) {
+      console.error("Error updating exercise:", error);
+      res.status(500).json({ success: false, error: "Error updating exercise" });
+    }
+  });
 
-module.exports = {registerDoctor, authDoctor};
+
+module.exports = {registerDoctor, authDoctor, getPatients};

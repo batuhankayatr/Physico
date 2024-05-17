@@ -40,7 +40,7 @@ function ChoosePatient() {
               </td>
               <th scope="col" className="align-middle">
                 <h4>
-                  <a>
+                  <a href="/AdminPanel">
                     <i class="bi bi-arrow-right-square-fill"></i>
                   </a>
                 </h4>
@@ -61,7 +61,9 @@ function ChoosePatient() {
               </td>
               <th scope="col" className="align-middle">
                 <h4>
-                  <i class="bi bi-arrow-right-square-fill"></i>
+                  <a href="/AdminPanel">
+                    <i class="bi bi-arrow-right-square-fill"></i>
+                  </a>
                 </h4>
               </th>
             </tr>
@@ -80,7 +82,9 @@ function ChoosePatient() {
               </td>
               <th scope="col" className="align-middle">
                 <h4>
-                  <i class="bi bi-arrow-right-square-fill"></i>
+                  <a href="/AdminPanel">
+                    <i class="bi bi-arrow-right-square-fill"></i>
+                  </a>
                 </h4>
               </th>
             </tr>

@@ -40,7 +40,6 @@ const registerPatient = asyncHandler(async (req, res) => {
 
     
 
-
     if (patient) {
         res.status(201).json({
             _id: patient._id,
@@ -51,6 +50,8 @@ const registerPatient = asyncHandler(async (req, res) => {
             weight: patient.weight,
             height: patient.height,
             sex: patient.sex,
+            doctor: doctorIdString,
+            doctorName : doctor.name,
             token: generateToken(patient._id)
         });
     } else {
@@ -70,6 +71,10 @@ const authPatient = asyncHandler(async (req, res) => {
             name: patient.name,
             email: patient.email,
             pic: patient.pic,
+            age: patient.age,
+            weight: patient.weight,
+            height: patient.height,
+            sex: patient.sex,
             token: generateToken(patient._id)
         });
     } else {

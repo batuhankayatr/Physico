@@ -1,0 +1,15 @@
+input {
+  width: 500px;
+}
+
+button {
+  border: none !important;
+}
+
+button:hover {
+  transition: color 0.8s ease;
+}
+
+#existing-exercises {
+  width: 500px !important;
+}

@@ -18,7 +18,7 @@ function Sidebar() {
         <hr />
         <div className="optionsDiv">
           <a
-            href="#"
+            href="/PatientInformation"
             className="list-group-item list-group-item-action py-2 mb-3"
           >
             <i class="listIcon bi bi-info-square-fill me-3"></i>
@@ -32,7 +32,7 @@ function Sidebar() {
             <span>Patient's Program</span>
           </a>
           <a
-            href="#"
+            href="/ChatPatient"
             className="list-group-item list-group-item-action py-2 mb-3"
           >
             <i class="listIcon bi bi-chat-fill me-3"></i>
