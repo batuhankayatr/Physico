@@ -33,8 +33,13 @@ const LoginPage = () => {
                 navigation.navigate('HomeStack');
 
                 dispatch(addUserData({
-                    userId: res.data.userId,
+                    id: res.data._id,
                     name: res.data.name,
+                    age: res.data.age,
+                    height: res.data.height,
+                    weight: res.data.weight,
+                    pic: res.data.pic,
+                    sex: res.data.sex,
                 }))
                 console.log(res.data);
             })

@@ -4,19 +4,20 @@ import styles from "./styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const ProfileCard = () => {
+const ProfileCard = ({props}) => {
+  console.log(props);
   return (
     <View style={styles.container}>
       <View style={styles.linearGradient}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Enes</Text>
+        <Text style={styles.title}>{props.name}</Text>
       </View>
       <View style={styles.information}>
         <View>
-          <Text>Age: 23</Text>
-          <Text>Male</Text>
-          <Text>Weight: 102</Text>
-          <Text>Height: 1.84</Text>
+          <Text>Age: {props.age}</Text>
+          <Text>{props.sex}</Text>
+          <Text>Weight: {props.weight}</Text>
+          <Text>Height: {props.height}</Text>
         </View>
         <View>
           <Text>Your Doctor: Furkan Yılmaz</Text>
