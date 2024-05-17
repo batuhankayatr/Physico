@@ -53,7 +53,10 @@ const registerPatient = asyncHandler(async (req, res) => {
             doctor: doctorIdString,
             doctorName : doctor.name,
             token: generateToken(patient._id)
-        });
+        })
+        doctor.patient.push(patient._id); // Doktora hastayı ekleyin
+        await doctor.save(); // Doktoru kaydedin
+        ;
     } else {
         res.status(400);
         throw new Error("Failed To Create The User");
@@ -75,6 +78,8 @@ const authPatient = asyncHandler(async (req, res) => {
             weight: patient.weight,
             height: patient.height,
             sex: patient.sex,
+            doctor: doctorIdString,
+            doctorName : doctor.name,
             token: generateToken(patient._id)
         });
     } else {

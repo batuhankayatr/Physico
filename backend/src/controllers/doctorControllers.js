@@ -73,8 +73,8 @@ const getPatients = asyncHandler(async (req, res) => {
       const doctor = await Doctor.findById(doctorId);
       
       if(doctor.doctorId = doctorId){
-  
-        res.status(200).json({ success: true, data: doctor.patient });
+        const patient = await Patient.findById(doctorId)
+        res.status(200).json({ success: true, data: patient });
      
        }
       
