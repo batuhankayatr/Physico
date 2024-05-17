@@ -87,7 +87,7 @@ const getExercisePatient = asyncHandler(async (req,res) =>{
         const patientId = req.body.patientId;
         const exercise = await Exercise.findExerciseByPatientIdAndDay(patientId, day);
 
-        if (exercise) {
+        if (exercise.isActive= true) {
             res.status(200).json({ success: true, data: exercise });
         } else {
             
@@ -145,8 +145,26 @@ const updateExercise = asyncHandler(async (req, res) => {
         res.status(500).json({ success: false, error: "Error updating exercise" });
     }
 });
+const inactiveExercise = asyncHandler(async (req, res) => {
+    try {
+      const exerciseId = req.params.exerciseId;
+  
+      const doctorId = req.body.doctorId;
+  
+      const exercise = await Exercise.findById(exerciseId);
+      
+      if(exercise.doctorId = doctorId){
+  
+      exercise.isActive= false;
+     
+      await exercise.save(); }
+      res.status(200).json({ success: true, data: exercise });
+    } catch (error) {
+      console.error("Error updating exercise:", error);
+      res.status(500).json({ success: false, error: "Error updating exercise" });
+    }
+  });
 
 
 
-
-module.exports = {createExercise, doneExercise, getExercisePatient, getExerciseDoctor, updateExercise};
+module.exports = {createExercise, doneExercise, getExercisePatient, getExerciseDoctor, updateExercise, inactiveExercise};
