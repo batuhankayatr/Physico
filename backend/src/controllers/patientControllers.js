@@ -78,8 +78,8 @@ const authPatient = asyncHandler(async (req, res) => {
             weight: patient.weight,
             height: patient.height,
             sex: patient.sex,
-            doctor: doctorIdString,
-            doctorName : doctor.name,
+            doctor: patient.doctor,
+            doctorName : patient.doctorname,
             token: generateToken(patient._id)
         });
     } else {
