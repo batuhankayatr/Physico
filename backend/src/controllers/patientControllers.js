@@ -70,6 +70,10 @@ const authPatient = asyncHandler(async (req, res) => {
             name: patient.name,
             email: patient.email,
             pic: patient.pic,
+            age: patient.age,
+            weight: patient.weight,
+            height: patient.height,
+            sex: patient.sex,
             token: generateToken(patient._id)
         });
     } else {

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { createExercise,  doneExercise, getExercisePatient, getExerciseDoctor, updateExercise, inactiveExercise } = require("../controllers/exerciseController");
+const { createExercise,  doneExercise, getExercisePatient, getExerciseDoctor, updateExercise, inactiveExercise  } = require("../controllers/exerciseController");
 
 // createExercise fonksiyonunu /create route'una bağla
 router.post('/create', createExercise);
@@ -9,5 +9,6 @@ router.get('/myExercises',getExercisePatient);
 router.get('/doctorExercises',getExerciseDoctor);
 router.put('/updateExercise',updateExercise);
 router.post('/:exerciseId/inActiveExercise',inactiveExercise);
+
 
 module.exports = router;

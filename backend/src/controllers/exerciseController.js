@@ -5,7 +5,7 @@ const Exercise = require("../models/exerciseModel");
 
 
 const createExercise = asyncHandler(async (req, res) => {
-    const { name, description, set, repeats, youtubeId, patientId,day } = req.body;
+    const { name, description, set, repeats, youtubeId, patientId, day } = req.body;
 
     if (!name || !description || !set || !repeats || !youtubeId || !patientId ||!day ) {
         res.status(400);
@@ -164,7 +164,6 @@ const inactiveExercise = asyncHandler(async (req, res) => {
       res.status(500).json({ success: false, error: "Error updating exercise" });
     }
   });
-
-
+  
 
 module.exports = {createExercise, doneExercise, getExercisePatient, getExerciseDoctor, updateExercise, inactiveExercise};
