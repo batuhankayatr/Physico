@@ -19,7 +19,7 @@ function AdminPanel() {
 
         <div className="col-4 col-md-2"></div>
         <div className="col">
-          <PatientProgram />
+          <Home />
         </div>
       </div>
     </div>

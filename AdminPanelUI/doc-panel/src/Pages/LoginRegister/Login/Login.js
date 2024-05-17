@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import img1 from "../../../assets/physicologo.png";
 
-import "./styles.css";
+import "../Login/login.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ function Login() {
               </p>
             </div>
             <button
-              onClick={() => navigate("/adminpanel")}
+              onClick={() => navigate("/ChoosePatient")}
               className="btn btn-success mt-2 block w-100"
               type="submit"
             >
