@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const Patient = require("../models/patientModel");
-
 const Doctor = require("../models/doctorModel");
 const Exercise = require("../models/exerciseModel");
 
@@ -35,8 +34,6 @@ const createExercise = asyncHandler(async (req, res) => {
         
     });
 
-    
-
 
     if (exercise) {
         res.status(201).json({
@@ -60,8 +57,6 @@ const createExercise = asyncHandler(async (req, res) => {
         throw new Error("Failed To Create The User");
     }
 });
-
-
 
 
 const doneExercise = asyncHandler(async (req, res) => {
@@ -103,7 +98,24 @@ const getExercisePatient = asyncHandler(async (req,res) =>{
         res.status(500).json({ success: false, error: "Error fetching exercise" });
     }
 });
+const getExerciseDoctor = asyncHandler(async (req,res) =>{
+    try {
+        const {day, patientId} = req.body;
+        const doctorId = req.body.doctorId;
+        const exercise = await Exercise.findExerciseByPatientIdAndDayAndDoctorId( patientId, day, doctorId);
+        console.log(exercise);
+        if (exercise) {
+            res.status(200).json({ success: true, data: exercise });
+        } else {
+            
+            res.status(404).json({ success: false, error: "Exercise not found" });
+        }
+    } catch (error) {
+        console.error("Error fetching exercise:", error);
+        res.status(500).json({ success: false, error: "Error fetching exercise" });
+    }
+});
 
 
 
-module.exports = {createExercise, doneExercise, getExercisePatient};
+module.exports = {createExercise, doneExercise, getExercisePatient, getExerciseDoctor};

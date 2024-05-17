@@ -23,6 +23,11 @@ exerciseSchema.statics.findExerciseByPatientIdAndDay = async function(patientId,
   return this.find({ patientId: patientId, day: day });
 };
 
+exerciseSchema.statics.findExerciseByPatientIdAndDayAndDoctorId = async function(patientId, day, doctorId) {
+  return this.find({ patientId: patientId, day: day, doctor: doctorId });
+};
+
+
 const Exercise = mongoose.model("Exercise", exerciseSchema);
 
 module.exports = Exercise;
