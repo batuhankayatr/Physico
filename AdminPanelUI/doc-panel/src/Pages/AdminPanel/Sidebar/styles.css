@@ -1,7 +1,9 @@
 #sideBarMain {
   border-radius: 50px;
 }
-
+#sidebar-all {
+  width: 350px;
+}
 a.list-group-item:hover span {
   transition: color 0.5s ease;
 }
@@ -36,4 +38,17 @@ i {
 
 hr {
   color: #a6cf97;
+}
+
+@media (max-width: 1366px) {
+  .sidebar {
+    font-size: 0.8rem;
+  }
+  .doctorSpan {
+    font-size: 0.65rem !important;
+  }
+
+  i {
+    margin-left: 2px;
+  }
 }

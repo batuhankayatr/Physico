@@ -4,7 +4,6 @@ import "./styles.css";
 function Sidebar() {
   return (
     <>
-      {" "}
       <div id="sideBarMain" className="bg-dark sidebar p-2">
         <div className="me-2">
           <i
@@ -12,7 +11,7 @@ function Sidebar() {
             style={{ color: "#abcf97" }}
           ></i>
           <span className="doctorSpan text-light brand-name fs-4">
-            Doctor Panel
+            Doc Panel
           </span>
         </div>
         <hr />
@@ -22,7 +21,7 @@ function Sidebar() {
             className="list-group-item list-group-item-action py-2 mb-3"
           >
             <i class="listIcon bi bi-info-square-fill me-3"></i>
-            <span>Patient Information</span>
+            <span>Patisewnt Information</span>
           </a>
           <a
             href="/PatientProgram"
