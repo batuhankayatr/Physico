@@ -87,7 +87,34 @@ const authPatient = asyncHandler(async (req, res) => {
         throw new Error("Invalid email or password");
     }
 });
+const changePassword = asyncHandler(async (req, res) => {
+    try {
+        const { enteredPassword, newPassword, email } = req.body;
+
+        
+        const patient = await Patient.findOne({ email });
+
+        if (!patient) {
+            res.status(404).json({ success: false, error: "Doctor not found" });
+            return;
+        }
+        
+        const isMatch = await patient.matchPassword(enteredPassword);
+        if (!isMatch) {
+            res.status(401).json({ success: false, error: "Invalid old password" });
+            return;
+        }
+        console.log(patient.password)
+        patient.password = newPassword;
+        await patient.save();
+
+        res.status(200).json({ success: true, message: "Password updated successfully" });
+    } catch (error) {
+        console.error("Error changing password:", error);
+        res.status(500).json({ success: false, error: "Error changing password" });
+    }
+});
 
 
 
-module.exports = { registerPatient, authPatient };
+module.exports = { registerPatient, authPatient, changePassword };
