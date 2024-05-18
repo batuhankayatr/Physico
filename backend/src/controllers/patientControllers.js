@@ -79,7 +79,7 @@ const authPatient = asyncHandler(async (req, res) => {
             height: patient.height,
             sex: patient.sex,
             doctor: patient.doctor,
-            doctorName : patient.doctorname,
+            doctorName : patient.doctorName,
             token: generateToken(patient._id)
         });
     } else {
@@ -87,5 +87,7 @@ const authPatient = asyncHandler(async (req, res) => {
         throw new Error("Invalid email or password");
     }
 });
+
+
 
 module.exports = { registerPatient, authPatient };

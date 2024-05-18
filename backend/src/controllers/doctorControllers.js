@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Patient = require ("../models/patientModel");
 const generateToken = require("../config/generateToken");
 const Doctor = require ("../models/doctorModel");
+
 const registerDoctor =asyncHandler( async (req,res) => {
     
     const {email,name, tcno, password, pic,  diploma}= req.body;
@@ -82,7 +83,35 @@ const getPatients = asyncHandler(async (req, res) => {
         res.status(500).json({ success: false, error: "Error getting patients" });
     }
 });
+const changePassword = asyncHandler(async (req, res) => {
+    try {
+        const { enteredPassword, newPassword, email } = req.body;
+
+        
+        const doctor = await Doctor.findOne({ email });
+
+        if (!doctor) {
+            res.status(404).json({ success: false, error: "Doctor not found" });
+            return;
+        }
+        
+        const isMatch = await doctor.matchPassword(enteredPassword);
+        if (!isMatch) {
+            res.status(401).json({ success: false, error: "Invalid old password" });
+            return;
+        }
+        console.log(doctor.password)
+        doctor.password = newPassword;
+        await doctor.save();
+
+        res.status(200).json({ success: true, message: "Password updated successfully" });
+    } catch (error) {
+        console.error("Error changing password:", error);
+        res.status(500).json({ success: false, error: "Error changing password" });
+    }
+});
 
 
 
-module.exports = {registerDoctor, authDoctor, getPatients};
+
+module.exports = {registerDoctor, authDoctor, getPatients, changePassword};
