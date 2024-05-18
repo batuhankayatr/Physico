@@ -27,11 +27,11 @@ const LoginPage = () => {
             email: email,
             password: password
         };
-
-        axios.post('http://10.0.2.2:5000/api/patient/login', userCredentials)
+        console.log("giriş");
+        axios.post('http://192.168.1.37:5000/api/patient/login', userCredentials)
             .then((res) => {
                 navigation.navigate('HomeStack');
-
+                console.log(res.data);
                 dispatch(addUserData({
                     id: res.data._id,
                     name: res.data.name,
@@ -40,8 +40,9 @@ const LoginPage = () => {
                     weight: res.data.weight,
                     pic: res.data.pic,
                     sex: res.data.sex,
+                    doctorName: res.data.doctorName
                 }))
-                console.log(res.data);
+                
             })
             .catch(err => console.log(err, userCredentials));
     }

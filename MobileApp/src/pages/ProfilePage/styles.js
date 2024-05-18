@@ -35,4 +35,9 @@ export default StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
     },
+    profileTitle: {
+    fontSize: 25,
+    color: '#636363',
+    fontWeight: 'bold', // Example of making the title bold
+  },
 });
