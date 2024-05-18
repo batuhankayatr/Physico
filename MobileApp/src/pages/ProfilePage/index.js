@@ -24,7 +24,7 @@ const ProfilePage = () => {
           />
         </View>
         <View style={styles.profileContainer}>
-          <Text style={{ fontSize: 25, color: "#636363" }}>Profile</Text>
+        <Text style={styles.profileTitle}>Profile</Text>
           <Image
             source={{ uri: userData.pic }}
             style={styles.profilePhoto}
