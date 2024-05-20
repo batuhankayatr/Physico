@@ -18,7 +18,7 @@ export default StyleSheet.create({
         alignItems: "center",
     },
     more_button: {
-        backgroundColor: "#a6cf97",
+        backgroundColor: "#2ba64c",
         borderRadius: 40,
         justifyContent: "center",
         alignItems: "center",

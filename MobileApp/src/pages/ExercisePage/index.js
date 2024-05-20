@@ -92,7 +92,7 @@ const ExercisePage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={["#e8e7de", "#a6cf97"]}
+        colors={["#e8e7de", "#2ba64c"]}
         style={styles.linearGradient}
       >
         <FlatList
