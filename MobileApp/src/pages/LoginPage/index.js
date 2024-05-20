@@ -51,7 +51,7 @@ const LoginPage = () => {
     <SafeAreaView style={styles.container}>
       <LinearGradient
         style={styles.linearGradient}
-        colors={["#a6cf97", "#e8e7de"]}
+        colors={["#2ba64c", "#e8e7de"]}
       >
         <View style={styles.logoContainer}>
           <Image

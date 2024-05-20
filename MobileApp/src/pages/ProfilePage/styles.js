@@ -38,6 +38,6 @@ export default StyleSheet.create({
     profileTitle: {
     fontSize: 25,
     color: '#636363',
-    fontWeight: 'bold', // Example of making the title bold
+    fontWeight: 'bold',
   },
 });

@@ -37,7 +37,7 @@ const ExerciseCard = ({ day, exercises }) => {
               </View>
               
               <TouchableOpacity style={styles.more_button} onPress={() => navigation.navigate('ExerciseDetailPage')}>
-                <Text>More...</Text>
+                <Text style={{color: 'white'}}>More...</Text>
               </TouchableOpacity>
             </View>
           ))}

@@ -101,24 +101,28 @@ const HomePage = () => {
     }
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
-      {weatherData.loading? (
-        <LinearGradient style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} colors={["black", "#a6cf97"]}>
-                <Image
-                  style={styles.animation}
-                  source={require("../../../assets/running-man-silhouette-symbol-icon-vector-logo-1.png")}
-                />
+      {weatherData.loading ? (
+        <LinearGradient
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          colors={["black", "#2ba64c"]}
+        >
+          <Image
+            style={styles.animation}
+            source={require("../../../assets/running-man-silhouette-symbol-icon-vector-logo-1.png")}
+          />
 
-          <LottieView source={require('../../../assets/running_man_animation.json')} autoPlay
-                loop
-                style={{ width: 200, height: 200 }}/>
-            </LinearGradient>
-   
+          <LottieView
+            source={require("../../../assets/running_man_animation.json")}
+            autoPlay
+            loop
+            style={{ width: 200, height: 200 }}
+          />
+        </LinearGradient>
       ) : (
         <LinearGradient
-          colors={["#e8e7de", "#a6cf97"]}
+          colors={["#e8e7de", "#2ba64c"]}
           style={styles.linearGradient}
         >
           <View style={styles.logoContainer}>
@@ -155,9 +159,7 @@ const HomePage = () => {
               showPercentageSymbol
               showProgressLabel
               subtitle="Today's Progress"
-
             />
-
           </View>
         </LinearGradient>
       )}
