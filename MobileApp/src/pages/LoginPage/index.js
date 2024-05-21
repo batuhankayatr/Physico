@@ -113,11 +113,6 @@ const LoginPage = () => {
             <Text>Don't have an account?</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.bottomContainer}>
-          <TouchableOpacity>
-            <Text>Forgot your password?</Text>
-          </TouchableOpacity>
-        </View>
       </LinearGradient>
     </SafeAreaView>
   );

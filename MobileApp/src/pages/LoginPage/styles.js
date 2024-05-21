@@ -76,10 +76,11 @@ export default StyleSheet.create({
       elevation: 5,
     },
     modalText: {
-      marginBottom: 15,
       textAlign: "center",
       fontSize: 24,
       fontWeight: "bold",
-      color: 'white'
+      color: 'white',
+      paddingLeft: 20,
+      paddingRight: 20,
     },
   });
