@@ -65,6 +65,7 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
+    borderWidth: 1,
   },
   buttonText: {
     color: "white",
@@ -105,6 +106,7 @@ export default StyleSheet.create({
     textAlign: "center",
     fontSize: 24,
     fontWeight: "bold",
+    color: "white",
   },
   modalImage: {
     width: Dimensions.get("window").height / 15,
