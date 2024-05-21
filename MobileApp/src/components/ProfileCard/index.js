@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Text, View, Modal, Image } from "react-native";
+import { Text, View, Modal, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
-import { PasswordModal } from "../PasswordModal";
+import ModalInput from "../ModalInput";
 
 const ProfileCard = ({ props }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -63,29 +62,59 @@ const ProfileCard = ({ props }) => {
         <TouchableOpacity style={styles.button} onPress={toggleModal}>
           <Text style={styles.buttonText}>Change Password</Text>
         </TouchableOpacity>
-        <PasswordModal modalVisible={modalVisible} toggleModal={toggleModal}  />
         <TouchableOpacity style={styles.button} onPress={toggleInputModal}>
           <Text style={styles.buttonText}>Change Profile Picture</Text>
         </TouchableOpacity>
         <Modal
           animationType="slide"
           transparent={true}
+          visible={modalVisible}
+          onRequestClose={toggleModal}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Change Password</Text>
+              <View style={styles.inputContainer}>
+                <ModalInput placeholder="Old Password" />
+                <ModalInput placeholder="Password" secureTextEntry={true} />
+                <ModalInput
+                  placeholder="Password Again"
+                  secureTextEntry={true}
+                />
+              </View>
+              <TouchableOpacity style={styles.modalButton}>
+                <Text style={{ color: "white" }}>Submit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={toggleModal}
+              >
+                <Text style={{ color: "white" }}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationType="slide"
           visible={inputModalVisible}
+          transparent={true}
           onRequestClose={toggleInputModal}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Change Profile Picture</Text>
-              <TouchableOpacity style={styles.modalButton}>
-                <Text style={{ color: "white" }} onPress={pickImage}>
-                  Pick An Image From Gallery
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.modalButton}>
-                <Text style={{ color: "white" }} onPress={takePhoto}>
-                  Take A Photo
-                </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={pickImage}
+                >
+                  <Text style={{ color: "white" }}>Gallery</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={takePhoto}
+                >
+                  <Text style={{ color: "white" }}>Take Photo</Text>
+                </TouchableOpacity>
               {selectedImage && (
                 <Image
                   source={{ uri: selectedImage }}
@@ -93,14 +122,13 @@ const ProfileCard = ({ props }) => {
                 />
               )}
               <TouchableOpacity style={styles.modalButton}>
-                <Text style={{ color: "white" }} onPress={toggleModal}>
-                  Submit
-                </Text>
+                <Text style={{ color: 'white' }}>Submit</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.modalButton}>
-                <Text style={{ color: "white" }} onPress={toggleInputModal}>
-                  Close
-                </Text>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={toggleInputModal}
+              >
+                <Text style={{ color: "white" }}>Close</Text>
               </TouchableOpacity>
             </View>
           </View>
