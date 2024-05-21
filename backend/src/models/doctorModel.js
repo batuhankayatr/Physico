@@ -8,9 +8,8 @@ const doctorSchema = mongoose.Schema(
     tcno: { type: Number, unique: true, required: true },
     password: { type: String, required: true },
     pic: {
-      type: String,
-      default:
-        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+      type: Buffer, // Store image as binary data
+      default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
     patient: [{ type: mongoose.Schema.Types.ObjectId, ref: "Patient" }],
     diploma: { type: Buffer } // Diploma PDF'sini Buffer olarak saklamak için

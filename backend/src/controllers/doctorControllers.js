@@ -2,6 +2,10 @@ const asyncHandler = require("express-async-handler");
 const Patient = require ("../models/patientModel");
 const generateToken = require("../config/generateToken");
 const Doctor = require ("../models/doctorModel");
+const multer = require('multer');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage }).single('pic');
 
 const registerDoctor =asyncHandler( async (req,res) => {
     
@@ -110,8 +114,33 @@ const changePassword = asyncHandler(async (req, res) => {
         res.status(500).json({ success: false, error: "Error changing password" });
     }
 });
+const uploadDoctorImage = async (req, res) => {
+    upload(req, res, async (err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Dosya yükleme hatası', error: err });
+      }
+  
+      try {
+        const doctorId = req.params.id; // Hasta ID'sinin URL'de geçtiğini varsayıyoruz
+        const doctor = await Doctor.findById(doctorId);
+  
+        if (!doctor) {
+          return res.status(404).json({ message: 'Hasta bulunamadı' });
+        }
+  
+        doctor.pic = req.file.buffer;
+        await doctor.save();
+  
+        res.json({ message: 'Resim başarıyla yüklendi' });
+      } catch (error) {
+        res.status(500).json({ message: 'Sunucu hatası', error: error.message });
+      }
+    });
+  };
 
 
 
 
-module.exports = {registerDoctor, authDoctor, getPatients, changePassword};
+
+
+module.exports = {registerDoctor, authDoctor, getPatients, changePassword,uploadDoctorImage};
