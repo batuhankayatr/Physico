@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require ("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 const patientSchema = mongoose.Schema(
   {
@@ -7,7 +7,7 @@ const patientSchema = mongoose.Schema(
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     pic: {
-      type: String,
+      type: Buffer, // Store image as binary data
       default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
     age: { type: Number },
@@ -15,21 +15,21 @@ const patientSchema = mongoose.Schema(
     height: { type: Number },
     sex: { type: String },
     doctor: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' }],
-    doctorName: { type: String }
+    doctorName: { type: String },
   },
   { timestamps: true }
 );
 
-patientSchema.methods.matchPassword = async function(enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password);
+patientSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
 };
 
-patientSchema.pre("save", async function(next) {
-    if (!this.isModified) {
-        next();
-    }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+patientSchema.pre("save", async function (next) {
+  if (!this.isModified) {
+    next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 const Patient = mongoose.model("Patient", patientSchema);

@@ -3,6 +3,11 @@ const Patient = require("../models/patientModel");
 const generateToken = require("../config/generateToken");
 const Doctor = require("../models/doctorModel");
 const mongoose = require("mongoose");
+const multer = require('multer');
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage }).single('pic');
+
 
 const registerPatient = asyncHandler(async (req, res) => {
     const { name, email, password, pic, age, weight, height, sex } = req.body;
@@ -114,7 +119,31 @@ const changePassword = asyncHandler(async (req, res) => {
         res.status(500).json({ success: false, error: "Error changing password" });
     }
 });
+const uploadPatientImage = async (req, res) => {
+    upload(req, res, async (err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Dosya yükleme hatası', error: err });
+      }
+  
+      try {
+        const patientId = req.params.id; // Hasta ID'sinin URL'de geçtiğini varsayıyoruz
+        const patient = await Patient.findById(patientId);
+  
+        if (!patient) {
+          return res.status(404).json({ message: 'Hasta bulunamadı' });
+        }
+  
+        patient.pic = req.file.buffer;
+        await patient.save();
+  
+        res.json({ message: 'Resim başarıyla yüklendi' });
+      } catch (error) {
+        res.status(500).json({ message: 'Sunucu hatası', error: error.message });
+      }
+    });
+  };
 
 
 
-module.exports = { registerPatient, authPatient, changePassword };
+
+module.exports = { registerPatient, authPatient, changePassword, uploadPatientImage };
