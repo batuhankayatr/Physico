@@ -38,4 +38,48 @@ export default StyleSheet.create({
       paddingBottom: 20,
       marginBottom: 20,
     },
+    modalButton: {
+      backgroundColor: "#585d57",
+      width: Dimensions.get("window").width / 1.9,
+      height: Dimensions.get("window").height / 24,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 20,
+      borderWidth: 1,
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    inputContainer: {
+      alignItems: "center",
+      justifyContent: "center",
+      width: "100%",
+    },
+    modalAccView: {
+      margin: 20,
+      backgroundColor: "#2ba64c",
+      borderRadius: 20,
+      padding: 20,
+      width: Dimensions.get("window").width / 1.2,
+      height: Dimensions.get("window").height / 2.7,
+      borderWidth: 1,
+      alignItems: "center",
+      shadowColor: "black",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: "center",
+      fontSize: 24,
+      fontWeight: "bold",
+      color: 'white'
+    },
   });
