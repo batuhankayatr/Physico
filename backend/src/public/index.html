@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Real-time Communication</title>
+    <script src="../server.js"></script>
+</head>
+<body>
+    <h1>Socket.IO Real-time Communication</h1>
+    <form id="messageForm">
+        <input type="text" id="messageInput" placeholder="Type a message...">
+        <button type="submit">Send</button>
+    </form>
+    <ul id="messagesList"></ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const socket = io(); // Sunucuya bağlan
+            const form = document.getElementById('messageForm');
+            const input = document.getElementById('messageInput');
+            const messagesList = document.getElementById('messagesList');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (!input.value.trim()) return; // Boş mesaj gönderme engellenir
+                socket.emit('sendMessage', input.value); // Mesajı sunucuya gönder
+                input.value = ''; // Girişi temizle
+            });
+
+            socket.on('messageReceived', function(message) {
+                const li = document.createElement('li');
+                li.textContent = message.message; // Mesajı listeye ekleyin
+                messagesList.appendChild(li);
+            });
+
+            socket.on('connect_error', function(err) {
+                console.error('WebSocket connection failed:', err);
+            });
+        });
+    </script>
+</body>
+</html>

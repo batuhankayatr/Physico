@@ -83,9 +83,9 @@ const doneExercise = asyncHandler(async (req, res) => {
 
 const getExercisePatient = asyncHandler(async (req,res) =>{
     try {
-        const {day} = req.body;
+        
         const patientId = req.body.patientId;
-        const exercise = await Exercise.findExerciseByPatientIdAndDay(patientId, day);
+        const exercise = await Exercise.findById(patientId);
 
         if (exercise.isActive= true) {
             res.status(200).json({ success: true, data: exercise });
