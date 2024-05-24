@@ -83,7 +83,7 @@ const doneExercise = asyncHandler(async (req, res) => {
 
 const getExercisePatient = asyncHandler(async (req, res) => {
     try {
-        const patientId = req.body.patientId;
+        const patientId = req.params.patientId;
 
         // Veritabanından sadece isActive = true olan verileri çek
         const activeExercises = await Exercise.find({ patientId: patientId, isActive: true });

@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import "./chatpatient.css";
+import io from "socket.io-client";
+
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
 
 function ChatPatient() {
+  const [sockeConnected, setSocketConnected] = useState(false);
+  useEffect(() =>{
+    socket = io(ENDPOINT);
+   // socket.emit("setup",user);
+    //socket.on("conenction", () => setSocketConnected(true));
+  },[]);
   return (
+    
     <div className="container-fluid bg-secondary min-vh-100">
       <div className="row">
         <div
