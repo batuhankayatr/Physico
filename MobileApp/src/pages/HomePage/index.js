@@ -9,24 +9,19 @@ import AnimatedProgressWheel from "react-native-progress-wheel";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWeather } from "../../redux/features/fetchWeather/index.js";
 import LottieView from "lottie-react-native";
-import { useIsFocused } from "@react-navigation/native";
+import FruitsCard from "../../components/FruitCard/index.js";
+
 
 const HomePage = () => {
   const weatherData = useSelector((state) => state.fetchWeather);
   const dispatch = useDispatch();
-  const isFocused = useIsFocused();
   const [progress, setProgress] = useState(0);
+
 
   useEffect(() => {
     dispatch(fetchWeather());
+  
   }, [dispatch]);
-
-  useEffect(() => {
-    if (isFocused) {
-      const newProgress = 0;
-      setProgress(newProgress);
-    }
-  }, [isFocused]);
 
   const getWeatherIcon = (weather) => {
     switch (weather) {
@@ -161,6 +156,9 @@ const HomePage = () => {
               subtitle="Today's Progress"
             />
           </View>
+  
+            <FruitsCard />
+      
         </LinearGradient>
       )}
     </SafeAreaView>

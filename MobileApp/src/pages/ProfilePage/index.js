@@ -1,15 +1,14 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import ProfileCard from "../../components/ProfileCard";
 import { useSelector } from "react-redux";
+import { selectUserData } from "../../redux/features/userData";
 
 const ProfilePage = () => {
-  const {userData} = useSelector((state) => state.userData);
-
-  console.log(userData);
+  const  {userData}  = useSelector((state) => state.userData);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -24,14 +23,16 @@ const ProfilePage = () => {
           />
         </View>
         <View style={styles.profileContainer}>
-        <Text style={styles.profileTitle}>Profile</Text>
-          <Image
-            source={{ uri: userData.pic }}
-            style={styles.profilePhoto}
-          />
+          <Text style={styles.profileTitle}>Profile</Text>
+      
+            <Image
+              source={{ uri: `data:image/jpeg;base64,${userData.pic}` }}
+              style={styles.profilePhoto}
+            />
+      
         </View>
         <View style={styles.profileCard_container}>
-        <ProfileCard props={userData}/>
+          <ProfileCard props={userData} />
         </View>
       </LinearGradient>
     </SafeAreaView>

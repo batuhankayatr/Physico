@@ -1,16 +1,26 @@
 import React, { useState } from "react";
-import { Text, View, Modal, Image, TouchableOpacity } from "react-native";
+import { Text, View, Modal, Image, TouchableOpacity, Alert } from "react-native";
 import styles from "./styles";
 import * as ImagePicker from "expo-image-picker";
 import ModalInput from "../ModalInput";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const ProfileCard = ({ props }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [inputModalVisible, setInputModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [confirmMessage, setConfirmMessage] = useState("");
+
+  const {userData} = useSelector((state) => state.userData);
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
+    setConfirmMessage("");
   };
 
   const toggleInputModal = () => {
@@ -40,6 +50,31 @@ const ProfileCard = ({ props }) => {
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
     }
+  };
+
+  const handleSubmit = () => {
+
+    if (newPassword !== confirmPassword) {
+      setErrorMessage("Passwords do not match!");
+      return;
+    }
+
+    const userCredentials = {
+      email: userData.email,
+      enteredPassword: oldPassword,
+      newPassword: newPassword,
+    };
+    axios
+     .put("http://192.168.1.37:5000/api/patient/changePassword", userCredentials)
+     .then((res) => {
+        console.log(res.data);
+        setErrorMessage("");
+        setConfirmMessage("Password updated successfully!");
+      })
+     .catch((err) => {
+        console.log(err, userCredentials);
+        setErrorMessage("Invalid old password!");
+      });
   };
 
   return (
@@ -74,15 +109,29 @@ const ProfileCard = ({ props }) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Change Password</Text>
+              {errorMessage && <Text style={{ color: 'red'}}>{errorMessage}</Text>}
+              {confirmMessage && <Text style={{ color: 'black'}}>{confirmMessage}</Text>}
               <View style={styles.inputContainer}>
-                <ModalInput placeholder="Old Password" />
-                <ModalInput placeholder="Password" secureTextEntry={true} />
-                <ModalInput
-                  placeholder="Password Again"
-                  secureTextEntry={true}
-                />
+              <ModalInput
+                placeholder="Old Password"
+                value={oldPassword}
+                onChangeText={setOldPassword}
+                secureTextEntry={true}
+              />
+              <ModalInput
+                placeholder="Password"
+                value={newPassword}
+                onChangeText={setNewPassword}
+                secureTextEntry={true}
+              />
+              <ModalInput
+                placeholder="Password Again"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry={true}
+              />
               </View>
-              <TouchableOpacity style={styles.modalButton}>
+              <TouchableOpacity style={styles.modalButton} onPress={handleSubmit}>
                 <Text style={{ color: "white" }}>Submit</Text>
               </TouchableOpacity>
               <TouchableOpacity
