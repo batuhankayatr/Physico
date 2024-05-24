@@ -24,15 +24,15 @@ export default StyleSheet.create({
       flexDirection: 'row',
       paddingLeft: 20,
       paddingRight: 20,
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
     },
     weatherTextContainer: {
       width: '50%',
       justifyContent: 'center',
     },
     weatherIcon: {
-        width: Dimensions.get('window').width/2.9,
-        height: Dimensions.get('window').height/6, 
+        width: Dimensions.get('window').width/3,
+        height: Dimensions.get('window').height/6.2, 
         alignSelf: 'center',
     },
     weatherText: {
@@ -43,10 +43,11 @@ export default StyleSheet.create({
     progressBar: {
       paddingTop: 20,
       alignItems: 'center',
-      height: Dimensions.get('window').height/2.4,
+      height: Dimensions.get('window').height/2.6,
       width: Dimensions.get('window').width/1.1,
       backgroundColor: 'rgba(0.0, 0.0, 0.0, 0.1)',
       borderRadius: 20,
+      margin: 20,
     },
     animation: {
       width: Dimensions.get('window').width/1.2,

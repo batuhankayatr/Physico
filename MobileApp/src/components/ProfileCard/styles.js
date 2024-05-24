@@ -8,6 +8,7 @@ export default StyleSheet.create({
     overflow: "hidden",
     paddingRight: 20,
     paddingLeft: 20,
+    backgroundColor: "#e8e7de",
   },
   linearGradient: {
     flex: 1,
@@ -20,9 +21,9 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
-    color: "black",
+    color: "#333",
   },
   information: {
     flexDirection: "row",
@@ -30,9 +31,8 @@ export default StyleSheet.create({
     marginVertical: 20,
   },
   infoText: {
-    fontSize: 18,
-    color: "black",
-    marginBottom: 5,
+    fontSize: 20,
+    color: "#333",
   },
   buttonsContainer: {
     alignItems: "center",
@@ -41,13 +41,14 @@ export default StyleSheet.create({
     marginTop: 30,
   },
   button: {
-    backgroundColor: "#585d57",
+    backgroundColor: "#2ba64c",
     width: Dimensions.get("window").width / 1.4,
     height: Dimensions.get("window").height / 24,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
     borderWidth: 1,
+    borderColor: "#2ba64c",
   },
   modalButton: {
     backgroundColor: "#585d57",
@@ -59,13 +60,12 @@ export default StyleSheet.create({
     borderWidth: 1,
   },
   logOutButton: {
-    backgroundColor: "#585d57",
+    backgroundColor: "#2ba64c",
     width: Dimensions.get("window").width / 2,
     height: Dimensions.get("window").height / 27,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
-    borderWidth: 1,
   },
   buttonText: {
     color: "white",

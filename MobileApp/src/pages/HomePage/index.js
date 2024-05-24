@@ -146,7 +146,7 @@ const HomePage = () => {
             )}
           <View style={styles.progressBar}>
             <AnimatedProgressWheel
-              size={250}
+              size={200}
               width={20}
               color={"green"}
               backgroundColor={"white"}
@@ -156,9 +156,7 @@ const HomePage = () => {
               subtitle="Today's Progress"
             />
           </View>
-  
             <FruitsCard />
-      
         </LinearGradient>
       )}
     </SafeAreaView>
