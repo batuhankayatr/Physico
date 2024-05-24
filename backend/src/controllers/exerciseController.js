@@ -81,23 +81,28 @@ const doneExercise = asyncHandler(async (req, res) => {
 });
 
 
-const getExercisePatient = asyncHandler(async (req,res) =>{
+const getExercisePatient = asyncHandler(async (req, res) => {
     try {
-        
         const patientId = req.body.patientId;
-        const exercise = await Exercise.findById(patientId);
 
-        if (exercise.isActive= true) {
-            res.status(200).json({ success: true, data: exercise });
+        // Veritabanından sadece isActive = true olan verileri çek
+        const activeExercises = await Exercise.find({ patientId: patientId, isActive: true });
+
+        // Veritabanından gelen sonuçları konsola yazdır
+        console.log('Fetched active exercises:', activeExercises);
+
+        if (activeExercises.length > 0) {
+            res.status(200).json({ success: true, data: activeExercises });
         } else {
-            
-            res.status(404).json({ success: false, error: "Exercise not found" });
+            res.status(404).json({ success: false, error: "Active exercise not found" });
         }
     } catch (error) {
-        console.error("Error fetching exercise:", error);
-        res.status(500).json({ success: false, error: "Error fetching exercise" });
+        console.error("Error fetching active exercise:", error);
+        res.status(500).json({ success: false, error: "Error fetching active exercise" });
     }
 });
+
+
 
 const getExerciseDoctor = asyncHandler(async (req,res) =>{
     try {
