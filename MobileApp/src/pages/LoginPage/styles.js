@@ -83,4 +83,8 @@ export default StyleSheet.create({
       paddingLeft: 20,
       paddingRight: 20,
     },
+    errorText: {
+      color: "red",
+      fontSize: 14,
+    },
   });

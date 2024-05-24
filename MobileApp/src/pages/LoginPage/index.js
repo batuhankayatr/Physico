@@ -15,13 +15,14 @@ import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { addUserData } from "../../redux/features/userData";
-import ModalInput from "../../components/ModalInput";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const [loginStatus, setLoginStatus] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -35,8 +36,8 @@ const LoginPage = () => {
       password: password,
     };
     axios
-      .post("http://192.168.1.37:5000/api/patient/login", userCredentials)
-      .then((res) => {
+     .post("http://192.168.1.37:5000/api/patient/login", userCredentials)
+     .then((res) => {
         navigation.navigate("HomeStack");
         console.log(res.data);
         dispatch(
@@ -52,8 +53,14 @@ const LoginPage = () => {
             doctorName: res.data.doctorName,
           })
         );
+        setLoginStatus(true);
+        setErrorMessage("");
       })
-      .catch((err) => console.log(err, userCredentials));
+     .catch((err) => {
+        console.log(err, userCredentials);
+        setErrorMessage("Incorrect email or password!");
+        setLoginStatus(false);
+      });
   };
 
   return (
@@ -109,7 +116,10 @@ const LoginPage = () => {
         </View>
         <View style={styles.buttonContainer}>
           <Button title="Log In" onPress={handleLogin} />
-          <TouchableOpacity onPress={toggleModal}>
+          {!loginStatus && <Text style={styles.errorText}>{errorMessage}</Text>}
+        </View>
+        <View style={styles.bottomContainer}>
+        <TouchableOpacity onPress={toggleModal}>
             <Text>Don't have an account?</Text>
           </TouchableOpacity>
         </View>
