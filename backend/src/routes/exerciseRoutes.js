@@ -5,7 +5,7 @@ const { createExercise,  doneExercise, getExercisePatient, getExerciseDoctor, up
 // createExercise fonksiyonunu /create route'una bağla
 router.post('/create', createExercise);
 router.post('/:exerciseId/doneExercise',doneExercise);
-router.get('/myExercises',getExercisePatient);
+router.get('/myExercises/:patientId',getExercisePatient);
 router.get('/doctorExercises',getExerciseDoctor);
 router.put('/updateExercise',updateExercise);
 router.post('/:exerciseId/inActiveExercise',inactiveExercise);
