@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, ActivityIndicator } from "react-native";
+import { Text, View, Image, ActivityIndicator, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Location from "expo-location";
@@ -98,6 +98,7 @@ const HomePage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       {weatherData.loading ? (
         <LinearGradient
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -159,6 +160,7 @@ const HomePage = () => {
             <FruitsCard />
         </LinearGradient>
       )}
+      </ScrollView>
     </SafeAreaView>
   );
 };

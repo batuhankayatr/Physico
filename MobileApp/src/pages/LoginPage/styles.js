@@ -58,10 +58,9 @@ export default StyleSheet.create({
       width: "100%",
     },
     modalAccView: {
-      margin: 20,
       backgroundColor: "#2ba64c",
       borderRadius: 20,
-      padding: 20,
+      paddingTop: 15,
       width: Dimensions.get("window").width / 1.2,
       height: Dimensions.get("window").height / 2.7,
       borderWidth: 1,
@@ -77,7 +76,7 @@ export default StyleSheet.create({
     },
     modalText: {
       textAlign: "center",
-      fontSize: 24,
+      fontSize: Dimensions.get("window").height / 35,
       fontWeight: "bold",
       color: 'white',
       paddingLeft: 20,
