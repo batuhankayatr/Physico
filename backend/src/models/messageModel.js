@@ -1,17 +1,30 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const messageSchema = mongoose.Schema(
   {
-    sender: { type: mongoose.Schema.Types.ObjectId, required: true, refPath: 'senderModel' },
-    receiver: { type: mongoose.Schema.Types.ObjectId, required: true, refPath: 'receiverModel' },
-    senderModel: { type: String, required: true, enum: ['Doctor', 'Patient'] },
-    receiverModel: { type: String, required: true, enum: ['Doctor', 'Patient'] },
-    message: { type: String, required: true },
-    read: { type: Boolean, default: false }
+    senderDoctor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Doctor',
+    },
+    senderPatient: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Patient',
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    chat: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Chat',
+      required: true,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-const Message = mongoose.model("Message", messageSchema);
+const Message = mongoose.model('Message', messageSchema);
 
 module.exports = Message;

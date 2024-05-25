@@ -9,23 +9,25 @@ import PatientProgram from "../Pages/AdminPanel/PatientProgram/PatientProgram";
 import ChatPatient from "../Pages/AdminPanel/ChatPatient/ChatPatient";
 import PatientInformation from "../Pages/AdminPanel/PatientInformation/PatientInformation";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import ChatParent from '../Pages/AdminPanel/ChatPatient/chatParent';
 import "./styles.css";
 
 function App() {
   return (
+    
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/chatpatient" element={<ChatPatient />} />
         <Route path="/PatientInformation" element={<PatientInformation />} />
-
+        <Route path="/chatpatient" element={<ChatParent />} />
         <Route path="/adminpanel" element={<AdminPanel />} />
         <Route path="/choosepatient" element={<ChoosePatient />} />
         <Route path="/patientprogram" element={<PatientProgram />} />
       </Routes>
     </BrowserRouter>
+    
   );
 }
 
