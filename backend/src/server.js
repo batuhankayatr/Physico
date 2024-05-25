@@ -32,6 +32,7 @@ app.use("/api/exercise", exerciseRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/messages', messageRoutes);
 
+
 app.use(notFound);
 app.use(errorHandler);
 
