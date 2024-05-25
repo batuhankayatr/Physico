@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Message = require('../models/messageModel');
 const Chat = require('../models/chatModel');
 const Doctor = require('../models/doctorModel');
-const Patient = require('../models/chatModel');
+const Patient = require('../models/patientModel'); // Doğru model dosyasını ekleyelim
 
 const sendMessage = asyncHandler(async (req, res) => {
   const { content, chatId, senderId, senderType } = req.body;
@@ -15,6 +15,7 @@ const sendMessage = asyncHandler(async (req, res) => {
   const newMessage = {
     content,
     chat: chatId,
+    senderType, // senderType'ı ekleyelim
   };
 
   if (senderType === 'Doctor') {
@@ -24,16 +25,19 @@ const sendMessage = asyncHandler(async (req, res) => {
   }
 
   try {
+    // Yeni mesajı oluşturun
     let message = await Message.create(newMessage);
 
-    message = await message
+    // Mesajı ilgili alanlarla yeniden sorgulayarak populate edin
+    message = await Message.findById(message._id)
       .populate('senderDoctor', 'name pic')
       .populate('senderPatient', 'name pic')
-      .populate('chat')
-      .execPopulate();
+      .populate('chat');
 
+    // En son mesajı chat'e güncelleyin
     await Chat.findByIdAndUpdate(chatId, { latestMessage: message });
 
+    // Mesajı JSON olarak döndürün
     res.json(message);
   } catch (error) {
     res.status(400);
@@ -54,5 +58,4 @@ const allMessages = asyncHandler(async (req, res) => {
     throw new Error(error.message);
   }
 });
-
 module.exports = { sendMessage, allMessages };
