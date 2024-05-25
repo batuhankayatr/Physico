@@ -4,23 +4,56 @@ import "./chatpatient.css";
 import io from "socket.io-client";
 
 const ENDPOINT = "http://localhost:5000";
-var socket, selectedChatCompare;
+let socket;
 
 function ChatPatient() {
-  const [sockeConnected, setSocketConnected] = useState(false);
-  useEffect(() =>{
-    socket = io(ENDPOINT);
-   // socket.emit("setup",user);
-    //socket.on("conenction", () => setSocketConnected(true));
-  },[]);
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+
+  useEffect(() => {
+    socket = io(ENDPOINT);  // socket'i burada başlatıyoruz
+    const userData = {
+      id: "user_id", // Gerçek kullanıcı ID'si ile değiştirin
+      // Gerekirse diğer kullanıcı verilerini ekleyin
+    };
+
+    socket.emit("setup", userData);
+    socket.on("connected", () => setSocketConnected(true));
+    socket.emit('join chat', "60d21b4667d0d8992e610c85"); // Gerçek sohbet ID'si ile değiştirin
+
+    socket.on('message received', (newMessage) => {
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const sendMessage = async () => {
+    if (newMessage.trim() === '') return;
+
+    const messageData = {
+      senderId: "60d0fe4f5311236168a109cb", // Gerçek kullanıcı ID'si ile değiştirin
+      chatId: "60d21b4667d0d8992e610c85",  // Gerçek sohbet ID'si ile değiştirin
+      senderType: "Doctor",               // veya "Patient" kullanıcıya göre değiştirin
+      content: newMessage,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Mesajı sunucuya gönder
+    socket.emit('send message', messageData);
+
+    // Mesaj listesini yerel olarak güncelle
+    setMessages((prevMessages) => [...prevMessages, messageData]);
+    setNewMessage('');
+  };
+
   return (
-    
     <div className="container-fluid bg-secondary min-vh-100">
       <div className="row">
-        <div
-          id="sideBar"
-          className="col-4 col-md-2 bg-dark vh-100 position-fixed"
-        >
+        <div id="sideBar" className="col-4 col-md-2 bg-dark vh-100 position-fixed">
           <Sidebar />
         </div>
 
@@ -28,117 +61,41 @@ function ChatPatient() {
         <div className="col">
           <div className="container bootstrap snippets bootdeys">
             <div className="col-md-7 col-xs-12 col-md-offset-2">
-              {/* Panel Chat */}
               <div className="panel" id="chat">
                 <div className="panel-heading">
-                  <h3 className="panel-title"></h3>
+                  <h3 className="panel-title">Chat</h3>
                 </div>
                 <div className="panel-body">
                   <div className="chats">
-                    <div className="chat">
-                      <div className="chat-avatar">
-                        <a
-                          className="avatar avatar-online"
-                          data-toggle="tooltip"
-                          href="#"
-                          data-placement="right"
-                          title="June Lane"
-                        >
-                          <img
-                            src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                            alt="avatar1"
-                          />
-                          <i></i>
-                        </a>
-                      </div>
-                      <div className="chat-body">
-                        <div className="chat-content">
-                          <p>
-                            Good morning, sir.
-                            <br />
-                            What can I do for you?
-                          </p>
-                          <time
-                            className="chat-time"
-                            dateTime="2015-07-01T11:37"
-                          >
-                            11:37:08 am
-                          </time>
+                    {messages.map((msg, index) => (
+                      <div key={index} className={msg.senderType === 'Doctor' ? 'chat' : 'chat chat-left'}>
+                        <div className="chat-avatar">
+                          <a className="avatar avatar-online" href="#" title={msg.senderType}>
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" />
+                          </a>
+                        </div>
+                        <div className="chat-body">
+                          <div className="chat-content">
+                            <p>{msg.content}</p>
+                            <time className="chat-time">{new Date(msg.createdAt).toLocaleTimeString()}</time>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="chat chat-left">
-                      <div className="chat-avatar">
-                        <a
-                          className="avatar avatar-online"
-                          data-toggle="tooltip"
-                          href="#"
-                          data-placement="left"
-                          title="Edward Fletcher"
-                        >
-                          <img
-                            src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                            alt="avatar2"
-                          />
-                          <i></i>
-                        </a>
-                      </div>
-                      <div className="chat-body">
-                        <div className="chat-content">
-                          <p>Well, I am just looking around.</p>
-                          <time
-                            className="chat-time"
-                            dateTime="2015-07-01T11:39"
-                          >
-                            11:39:57 am
-                          </time>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="chat">
-                      <div className="chat-avatar">
-                        <a
-                          className="avatar avatar-online"
-                          data-toggle="tooltip"
-                          href="#"
-                          data-placement="right"
-                          title="June Lane"
-                        >
-                          <img
-                            src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                            alt="avatar1"
-                          />
-                          <i></i>
-                        </a>
-                      </div>
-                      <div className="chat-body">
-                        <div className="chat-content">
-                          <p>If necessary, please ask me.</p>
-                          <time
-                            className="chat-time"
-                            dateTime="2015-07-01T11:40"
-                          >
-                            11:40:10 am
-                          </time>
-                        </div>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
                 <div className="panel-footer">
-                  <form>
+                  <form onSubmit={(e) => { e.preventDefault(); sendMessage(); }}>
                     <div className="input-group">
                       <input
                         type="text"
                         className="form-control"
                         placeholder="Say something"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
                       />
                       <span className="input-group-btn">
-                        <button
-                          id="send-button"
-                          className="btn btn-primary"
-                          type="button"
-                        >
+                        <button className="btn btn-primary" type="button" onClick={sendMessage}>
                           Send
                         </button>
                       </span>

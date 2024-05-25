@@ -1,90 +1,58 @@
+const asyncHandler = require('express-async-handler');
 const Message = require('../models/messageModel');
+const Chat = require('../models/chatModel');
+const Doctor = require('../models/doctorModel');
+const Patient = require('../models/chatModel');
 
-// Mesaj gönderme işlevi
-const sendMessage = async ({ doctorId, patientId, senderModel, messageContent }) => {
-  try {
-    const receiverModel = senderModel === 'Doctor' ? 'Patient' : 'Doctor';
-    const senderId = senderModel === 'Doctor' ? doctorId : patientId;
-    const receiverId = senderModel === 'Doctor' ? patientId : doctorId;
+const sendMessage = asyncHandler(async (req, res) => {
+  const { content, chatId, senderId, senderType } = req.body;
 
-    const message = new Message({
-      sender: senderId,
-      receiver: receiverId,
-      senderModel,
-      receiverModel,
-      message: messageContent,
-    });
-
-    await message.save();
-    return message;
-  } catch (error) {
-    console.error("Mesaj gönderilemedi:", error);
-    throw error;
+  if (!content || !chatId || !senderId || !senderType) {
+    res.status(400);
+    throw new Error('Invalid data passed into request');
   }
-};
 
-// Belirli bir doktor ve hasta arasındaki tüm mesajları alma işlevi
-const getMessagesBetweenDoctorAndPatient = async (doctorId, patientId) => {
-  try {
-    const messages = await Message.find({
-      $or: [
-        { sender: doctorId, receiver: patientId, senderModel: 'Doctor', receiverModel: 'Patient' },
-        { sender: patientId, receiver: doctorId, senderModel: 'Patient', receiverModel: 'Doctor' },
-      ],
-    }).sort({ createdAt: 1 }); // Tarih sırasına göre sıralama
+  const newMessage = {
+    content,
+    chat: chatId,
+  };
 
-    return messages;
-  } catch (error) {
-    console.error("Mesajlar alınamadı:", error);
-    throw error;
+  if (senderType === 'Doctor') {
+    newMessage.senderDoctor = senderId;
+  } else if (senderType === 'Patient') {
+    newMessage.senderPatient = senderId;
   }
-};
 
-// Socket.io olaylarını işleme
-const handleSocketConnection = (socket) => {
-  console.log("Yeni bir kullanıcı bağlandı");
-
-  socket.on("sendMessage", async (data) => {
-    try {
-      const message = await sendMessage(data);
-      socket.emit("messageReceived", message); // Gönderen kullanıcıya mesajı geri gönder
-      socket.to(data.receiverId).emit("messageReceived", message); // Alıcıya mesajı gönder
-    } catch (error) {
-      console.error("Mesaj gönderilemedi:", error);
-    }
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Kullanıcı bağlantıyı kesti");
-  });
-};
-
-// REST API ile mesaj gönderme işlevi
-const sendMessageAPI = async (req, res) => {
-  const { doctorId, patientId, senderModel, messageContent } = req.body;
   try {
-    const message = await sendMessage({ doctorId, patientId, senderModel, messageContent });
-    res.status(201).json(message);
+    let message = await Message.create(newMessage);
+
+    message = await message
+      .populate('senderDoctor', 'name pic')
+      .populate('senderPatient', 'name pic')
+      .populate('chat')
+      .execPopulate();
+
+    await Chat.findByIdAndUpdate(chatId, { latestMessage: message });
+
+    res.json(message);
   } catch (error) {
-    res.status(500).json({ message: "Mesaj gönderilemedi", error });
+    res.status(400);
+    throw new Error(error.message);
   }
-};
+});
 
-// Belirli bir doktor ve hasta arasındaki tüm mesajları alma işlevi (REST API)
-const getMessagesAPI = async (req, res) => {
-  const { doctorId, patientId } = req.params;
+const allMessages = asyncHandler(async (req, res) => {
   try {
-    const messages = await getMessagesBetweenDoctorAndPatient(doctorId, patientId);
+    const messages = await Message.find({ chat: req.params.chatId })
+      .populate('senderDoctor', 'name pic email')
+      .populate('senderPatient', 'name pic email')
+      .populate('chat');
+
     res.json(messages);
   } catch (error) {
-    res.status(500).json({ message: "Mesajlar alınamadı", error });
+    res.status(400);
+    throw new Error(error.message);
   }
-};
+});
 
-module.exports = {
-  sendMessage,
-  getMessagesBetweenDoctorAndPatient,
-  handleSocketConnection,
-  sendMessageAPI,
-  getMessagesAPI,
-};
+module.exports = { sendMessage, allMessages };

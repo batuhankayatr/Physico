@@ -1,18 +1,29 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const chatModel = mongoose.Schema(
+const chatSchema = mongoose.Schema(
   {
-    chatName: { type: String, trim: true },
-    users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    doctors: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Doctor', // Doctor modelini referans veriyoruz
+      },
+    ],
+    patients: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Patient', // Patient modelini referans veriyoruz
+      },
+    ],
     latestMessage: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Message",
+      ref: 'Message',
     },
-    
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-const Chat = mongoose.model("Chat", chatModel);
+const Chat = mongoose.model('Chat', chatSchema);
 
 module.exports = Chat;
