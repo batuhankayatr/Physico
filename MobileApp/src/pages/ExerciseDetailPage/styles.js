@@ -43,5 +43,11 @@ export default StyleSheet.create({
     description: {
         fontSize: 15,
         marginTop: 10,
-    }
+    },
+    backButton: {
+      position: "absolute",
+      top: 20,
+      left: 20,
+      zIndex: 1,
+    },
 });

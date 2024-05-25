@@ -1,12 +1,16 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState, useCallback, useRef } from "react";
-import { Button, View, Alert, Image, Text } from "react-native";
+import React, { useState, useCallback } from "react";
+import { View, Image, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import YoutubePlayer from "react-native-youtube-iframe";
+import Icon from "react-native-vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 import styles from "./styles";
 
-const ExerciseDetailPage = () => {
+const ExerciseDetailPage = ({ route }) => {
   const [playing, setPlaying] = useState(false);
+  const { exercise } = route.params;
+  const navigation = useNavigation();
 
   const onStateChange = useCallback((state) => {
     if (state === "ended") {
@@ -24,7 +28,9 @@ const ExerciseDetailPage = () => {
         colors={["#e8e7de", "#2ba64c"]}
         style={styles.linearGradient}
       >
-        
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back" size={30} color="#000" />
+        </TouchableOpacity>
         <View style={styles.logoContainer}>
           <Image
             style={styles.logo}
@@ -36,25 +42,19 @@ const ExerciseDetailPage = () => {
             width={styles.player.width}
             height={styles.player.height}
             play={playing}
-            videoId={"lwKeQoXk4mk"}
+            videoId={exercise.youtubeId}
             onChangeState={onStateChange}
           />
         </View>
         <View style={styles.description_container}>
           <View>
-          <Text style={styles.title}>Bench Press</Text>
+            <Text style={styles.title}>{exercise.name}</Text>
           </View>
           <View>
-          <Text style={styles.task}>3 sets 12 repeats</Text>
+            <Text style={styles.task}>{exercise.set} Sets {exercise.repeats} Repeats</Text>
           </View>
           <Text style={styles.description}>
-            The bench press, or chest press, is a weight training exercise where
-            a person presses a weight upwards while lying horizontally on a
-            weight training bench. The bench press is a compound movement, with
-            the primary muscles involved being the pectoralis major, the
-            anterior deltoids, and the triceps brachii, alongside other muscles
-            for stabilization. A barbell is generally used to hold the weight,
-            but a pair of dumbbells can also be used.
+            {exercise.description}
           </Text>
         </View>
       </LinearGradient>

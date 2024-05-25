@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  Dimensions,
 } from "react-native";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -39,7 +40,6 @@ const LoginPage = () => {
      .post("http://192.168.1.37:5000/api/patient/login", userCredentials)
      .then((res) => {
         navigation.navigate("HomeStack");
-        console.log(res.data);
         dispatch(
           addUserData({
             id: res.data._id,
@@ -84,8 +84,8 @@ const LoginPage = () => {
           <View style={styles.centeredView}>
             <View style={styles.modalAccView}>
               <Text style={styles.modalText}>Don't Have An Account?</Text>
-              <View style={{padding: 20, marginBottom: 20}}>
-              <Text style={{fontSize: 16}}>
+              <View style={{padding: 30}}>
+              <Text style={{fontSize: Dimensions.get("window").height / 45}}>
                 As Physico, we work with physiotherapy centers. Therefore, to
                 have a Physico account, you should contact your contracted
                 institutions and ask your doctor to create an account.
