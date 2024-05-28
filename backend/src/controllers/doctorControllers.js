@@ -72,7 +72,7 @@ const authDoctor = asyncHandler(async(req, res) =>{
 });
 const getPatients = asyncHandler(async (req, res) => {
     try {
-        const doctorId = req.body.doctorId;
+        const doctorId = req.params.doctorId;
 
         const doctor = await Doctor.findById(doctorId);
 

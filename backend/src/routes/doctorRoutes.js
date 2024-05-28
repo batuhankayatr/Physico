@@ -4,7 +4,7 @@ const {registerDoctor, authDoctor, getPatients, changePassword, uploadDoctorImag
 
 router.route('/admin/register').post(registerDoctor);
 router.post('/admin/login',authDoctor);
-router.get('/listPatients',getPatients);
+router.get('/listPatients/:doctorId',getPatients);
 router.put('/admin/changePassword',changePassword);
 router.post('/admin/upload/:id', uploadDoctorImage);
 
