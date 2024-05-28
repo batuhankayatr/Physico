@@ -7,7 +7,7 @@ import img1 from "../../../assets/physicologo.png";
 
 import "../Login/login.css";
 import { useDispatch } from "react-redux";
-import { addUserData } from "../../../Redux/UserData";
+import { addUserData } from "../../../Redux/userData";
 
 function Login() {
   const dispatch = useDispatch();
