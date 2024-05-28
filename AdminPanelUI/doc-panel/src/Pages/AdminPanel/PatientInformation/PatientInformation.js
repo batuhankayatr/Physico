@@ -2,7 +2,9 @@ import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import "../PatientInformation/patientinformation.css";
 
-function PatientInformation() {
+function PatientInformation({ route }) {
+  const { patient } = route.params;
+  console.log(patient);
   return (
     <div className="container-fluid bg-secondary min-vh-100">
       <div className="row">

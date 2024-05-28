@@ -1,29 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../ChoosePatient/style.css";
-import till from "../../assets/tillLindemann.jpg";
-import rob from "../../assets/rob.jpg";
-import richard from "../../assets/richard.jpg";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function ChoosePatient() {
   const { userData } = useSelector((state) => state.userData);
   const navigate = useNavigate();
-  useEffect(() => {
-    const doctorId = userData.id;
-    console.log(doctorId);
-    console.log(userData);
 
-    axios
-      .get(`http://localhost:5000/api/doctor/listPatients/${doctorId}/`)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
+  const [patients, setPatients] = useState([]);
+
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const doctorId = userData.id;
+        console.log(doctorId);
+        console.log(userData);
+
+        const response = await axios.get(
+          `http://localhost:5000/api/doctor/listPatients/${doctorId}/`
+        );
+        console.log(response.data);
+        setPatients(response.data); // assuming response.data is an array of patients
+      } catch (error) {
         console.error(error);
-      });
-  }, [userData]);
+      }
+    };
+
+    if (userData.id) {
+      fetchPatients();
+    }
+  }, []);
+
+  const patientsToRender = patients.data ? patients.data : [];
+
   return (
     <div className="wrapper">
       <div className="container">
@@ -45,68 +55,30 @@ function ChoosePatient() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="align-middle">
-                <img
-                  className="patient-photo"
-                  src={till}
-                  alt="Till Lindemann"
-                />
-              </td>
-              <td className="align-middle">Till Lindemann</td>
-              <td className="align-middle">
-                a05f2ad0-ef24-4b41-83d9-a43ec8430283
-              </td>
-              <th scope="col" className="align-middle">
-                <h4>
-                  <a href="/AdminPanel">
-                    <i class="bi bi-arrow-right-square-fill"></i>
-                  </a>
-                </h4>
-              </th>
-            </tr>
-
-            <tr>
-              <td className="align-middle">
-                <img
-                  className="patient-photo"
-                  src={rob}
-                  alt="Robert Trujillo"
-                />
-              </td>
-              <td className="align-middle">Robert Trujillo</td>
-              <td className="align-middle">
-                1b3c447f-6c82-4291-93e6-a33f00ed9d1c
-              </td>
-              <th scope="col" className="align-middle">
-                <h4>
-                  <a href="/AdminPanel">
-                    <i class="bi bi-arrow-right-square-fill"></i>
-                  </a>
-                </h4>
-              </th>
-            </tr>
-
-            <tr>
-              <td className="align-middle">
-                <img
-                  className="patient-photo"
-                  src={richard}
-                  alt="Richard Kruspe"
-                />
-              </td>
-              <td className="align-middle">Richard Kruspe</td>
-              <td className="align-middle">
-                cdc3275b-4725-430c-9d55-33738699d748
-              </td>
-              <th scope="col" className="align-middle">
-                <h4>
-                  <a href="/AdminPanel">
-                    <i class="bi bi-arrow-right-square-fill"></i>
-                  </a>
-                </h4>
-              </th>
-            </tr>
+            {patientsToRender.map((patient) => (
+              <tr key={patient.id}>
+                <td className="align-middle">
+                  <img
+                    className="patient-photo"
+                    src={patient.pic[patient.name] || "defaultPhoto.jpg"}
+                    alt={patient.name}
+                  />
+                </td>
+                <td className="align-middle">{patient.name}</td>
+                <td className="align-middle">{patient.id}</td>
+                <td className="align-middle">
+                  <h4>
+                    <a
+                      onClick={() =>
+                        navigate("/patientinformation", { patient })
+                      }
+                    >
+                      <i className="bi bi-arrow-right-square-fill"></i>
+                    </a>
+                  </h4>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
