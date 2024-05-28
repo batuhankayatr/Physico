@@ -22,13 +22,15 @@ doctorSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 
-doctorSchema.pre("save", async function (next) {
-  if (!this.isModified) {
-    next();
+doctorSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+      return next();
   }
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+  next();
 });
+
 
 const Doctor = mongoose.model("Doctor", doctorSchema);
 

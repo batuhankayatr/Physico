@@ -68,6 +68,9 @@ const registerPatient = asyncHandler(async (req, res) => {
     }
 });
 
+
+
+
 const authPatient = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
