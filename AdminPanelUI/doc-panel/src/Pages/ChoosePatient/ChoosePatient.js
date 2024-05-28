@@ -1,18 +1,29 @@
 import React, { useEffect } from "react";
+import axios from "axios";
 import "../ChoosePatient/style.css";
 import till from "../../assets/tillLindemann.jpg";
 import rob from "../../assets/rob.jpg";
 import richard from "../../assets/richard.jpg";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function ChoosePatient() {
+  const { userData } = useSelector((state) => state.userData);
   const navigate = useNavigate();
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/");
-    }
-  }, []);
+    const doctorId = userData.id;
+    console.log(doctorId);
+    console.log(userData);
+
+    axios
+      .get(`http://localhost:5000/api/doctor/listPatients/${doctorId}/`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [userData]);
   return (
     <div className="wrapper">
       <div className="container">
