@@ -52,3 +52,12 @@ hr {
     margin-left: 2px;
   }
 }
+
+#createP {
+  color: #dc5f00 !important;
+}
+
+#createP:hover i {
+  color: #e8e7de !important;
+  transition: color 0.5s ease;
+}
