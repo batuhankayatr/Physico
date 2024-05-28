@@ -37,6 +37,14 @@ function Sidebar() {
             <i class="listIcon bi bi-chat-fill me-3"></i>
             <span>Chat with Patient</span>
           </a>
+
+          <a
+            href="/CreatePatient"
+            className="list-group-item list-group-item-action py-2 mb-3"
+          >
+            <i id="createP" class="listIcon bi bi-plus-circle-fill me-3"></i>
+            <span style={{ color: "#DC5F00" }}>Create New Patient</span>
+          </a>
         </div>
       </div>
     </>
