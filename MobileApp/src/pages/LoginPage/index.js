@@ -37,7 +37,7 @@ const LoginPage = () => {
       password: password,
     };
     axios
-     .post("http://192.168.1.37:5000/api/patient/login", userCredentials)
+     .post("http://192.168.56.1:5000/api/patient/login", userCredentials)
      .then((res) => {
         navigation.navigate("HomeStack");
         dispatch(
@@ -51,8 +51,11 @@ const LoginPage = () => {
             pic: res.data.pic,
             sex: res.data.sex,
             doctorName: res.data.doctorName,
+            doctorId: res.data.doctor,
           })
         );
+        setEmail("");
+        setPassword("");
         setLoginStatus(true);
         setErrorMessage("");
       })
@@ -67,7 +70,7 @@ const LoginPage = () => {
     <SafeAreaView style={styles.container}>
       <LinearGradient
         style={styles.linearGradient}
-        colors={["#2ba64c", "#e8e7de"]}
+        colors={["#97BE5A", "#e8e7de"]}
       >
         <View style={styles.logoContainer}>
           <Image
@@ -85,7 +88,7 @@ const LoginPage = () => {
             <View style={styles.modalAccView}>
               <Text style={styles.modalText}>Don't Have An Account?</Text>
               <View style={{padding: 30}}>
-              <Text style={{fontSize: Dimensions.get("window").height / 45}}>
+              <Text style={{fontSize: Dimensions.get("window").height / 45, color:'white'}}>
                 As Physico, we work with physiotherapy centers. Therefore, to
                 have a Physico account, you should contact your contracted
                 institutions and ask your doctor to create an account.
@@ -95,7 +98,7 @@ const LoginPage = () => {
                 style={styles.modalButton}
                 onPress={toggleModal}
               >
-                <Text style={{ color: "white" }}>Close</Text>
+                <Text style={{ color: "#212529", fontWeight: 'bold' }}>Close</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -120,7 +123,7 @@ const LoginPage = () => {
         </View>
         <View style={styles.bottomContainer}>
         <TouchableOpacity onPress={toggleModal}>
-            <Text>Don't have an account?</Text>
+            <Text style={{color: "#212529"}}>Don't have an account?</Text>
           </TouchableOpacity>
         </View>
       </LinearGradient>

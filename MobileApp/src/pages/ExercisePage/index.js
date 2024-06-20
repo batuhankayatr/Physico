@@ -12,22 +12,30 @@ const ExercisePage = () => {
   const [groupedExercises, setGroupedExercises] = useState({});
 
   useEffect(() => {
-    const userId = userData.id;
-    axios.get(`http://192.168.1.37:5000/api/exercise/myExercises/${userId}/`)
-      .then((response) => {
-        const exercises = response.data.data;
-        const grouped = groupExercisesByDay(exercises);
-        setGroupedExercises(grouped);
-        console.log(grouped);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const fetchExercises = () => {
+      const userId = userData.id;
+      axios.get(`http://192.168.56.1:5000/api/exercise/myExercises/${userId}/`)
+        .then((response) => {
+          const exercises = response.data.data;
+          const grouped = groupExercisesByDay(exercises);
+          setGroupedExercises(grouped);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+
+    fetchExercises();
+
+    const intervalId = setInterval(fetchExercises, 5000);
+
+    return () => clearInterval(intervalId);
   }, [userData]);
+
 
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={["#e8e7de", "#2ba64c"]} style={styles.linearGradient}>
+      <LinearGradient colors={["#e8e7de", "#97BE5A"]} style={styles.linearGradient}>
         <FlatList
           ListHeaderComponent={
             <>

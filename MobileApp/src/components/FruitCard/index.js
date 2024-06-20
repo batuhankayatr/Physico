@@ -27,7 +27,7 @@ const FruitsCard = () => {
 
   return (
     <View style={styles.container}>
-      <Text>Don't forget to eat healthy!</Text>
+      <Text style={styles.reminderText}>Don't forget to eat healthy!</Text>
       <FlatList
         data={fruitsData}
         keyExtractor={(item) => item.id.toString()}

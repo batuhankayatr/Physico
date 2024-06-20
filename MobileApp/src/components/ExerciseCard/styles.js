@@ -29,7 +29,7 @@ export default StyleSheet.create({
     borderBottomColor: "#ddd",
   },
   more_button: {
-    backgroundColor: "#2ba64c",
+    backgroundColor: "#97BE5A",
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
@@ -51,7 +51,7 @@ export default StyleSheet.create({
     color: "#666",
   },
   moreButtonText: {
-    color: "white",
+    color: "#212529",
     fontSize: 16,
     fontWeight: "bold",
   },

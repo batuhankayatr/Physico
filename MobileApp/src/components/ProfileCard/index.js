@@ -5,6 +5,7 @@ import * as ImagePicker from "expo-image-picker";
 import ModalInput from "../ModalInput";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileCard = ({ props }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,7 +16,7 @@ const ProfileCard = ({ props }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [confirmMessage, setConfirmMessage] = useState("");
-
+  const navigation = useNavigation();
   const {userData} = useSelector((state) => state.userData);
 
   const toggleModal = () => {
@@ -65,7 +66,7 @@ const ProfileCard = ({ props }) => {
       newPassword: newPassword,
     };
     axios
-     .put("http://192.168.1.37:5000/api/patient/changePassword", userCredentials)
+     .put("http://192.168.56.1:5000/api/patient/changePassword", userCredentials)
      .then((res) => {
         console.log(res.data);
         setErrorMessage("");
@@ -110,7 +111,7 @@ const ProfileCard = ({ props }) => {
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Change Password</Text>
               {errorMessage && <Text style={{ color: 'red'}}>{errorMessage}</Text>}
-              {confirmMessage && <Text style={{ color: 'black'}}>{confirmMessage}</Text>}
+              {confirmMessage && <Text style={{ color: 'white'}}>{confirmMessage}</Text>}
               <View style={styles.inputContainer}>
               <ModalInput
                 placeholder="Old Password"
@@ -119,26 +120,26 @@ const ProfileCard = ({ props }) => {
                 secureTextEntry={true}
               />
               <ModalInput
-                placeholder="Password"
+                placeholder="New Password"
                 value={newPassword}
                 onChangeText={setNewPassword}
                 secureTextEntry={true}
               />
               <ModalInput
-                placeholder="Password Again"
+                placeholder="New Password Again"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 secureTextEntry={true}
               />
               </View>
               <TouchableOpacity style={styles.modalButton} onPress={handleSubmit}>
-                <Text style={{ color: "white" }}>Submit</Text>
+                <Text style={{ color: "#21252" }}>Submit</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.modalButton}
                 onPress={toggleModal}
               >
-                <Text style={{ color: "white" }}>Close</Text>
+                <Text style={{ color: "#21252" }}>Close</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -156,13 +157,13 @@ const ProfileCard = ({ props }) => {
                   style={styles.modalButton}
                   onPress={pickImage}
                 >
-                  <Text style={{ color: "white" }}>Gallery</Text>
+                  <Text style={{ color: "#21252" }}>Gallery</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.modalButton}
                   onPress={takePhoto}
                 >
-                  <Text style={{ color: "white" }}>Take Photo</Text>
+                  <Text style={{ color: "#21252" }}>Take Photo</Text>
                 </TouchableOpacity>
               {selectedImage && (
                 <Image
@@ -171,18 +172,18 @@ const ProfileCard = ({ props }) => {
                 />
               )}
               <TouchableOpacity style={styles.modalButton}>
-                <Text style={{ color: 'white' }}>Submit</Text>
+                <Text style={{ color: '#21252' }}>Submit</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.modalButton}
                 onPress={toggleInputModal}
               >
-                <Text style={{ color: "white" }}>Close</Text>
+                <Text style={{ color: '#21252' }}>Close</Text>
               </TouchableOpacity>
             </View>
           </View>
         </Modal>
-        <TouchableOpacity style={styles.logOutButton}>
+        <TouchableOpacity style={styles.logOutButton} onPress={() => navigation.navigate('LoginStack')}>
           <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
       </View>

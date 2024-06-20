@@ -5,15 +5,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import ProfileCard from "../../components/ProfileCard";
 import { useSelector } from "react-redux";
-import { selectUserData } from "../../redux/features/userData";
 
 const ProfilePage = () => {
   const  {userData}  = useSelector((state) => state.userData);
 
+  console.log(userData);
+
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
-        colors={["#e8e7de", "#2ba64c"]}
+        colors={["#e8e7de", "#97BE5A"]}
         style={styles.linearGradient}
       >
         <View style={styles.logoContainer}>
