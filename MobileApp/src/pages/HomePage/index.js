@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, Image, ActivityIndicator, ScrollView } from "react-native";
+import { Text, View, Image, ActivityIndicator, ScrollView, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Location from "expo-location";
@@ -10,19 +10,38 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchWeather } from "../../redux/features/fetchWeather/index.js";
 import LottieView from "lottie-react-native";
 import FruitsCard from "../../components/FruitCard/index.js";
+import { updateProgress } from "../../redux/features/progress/index.js";
 
 
 const HomePage = () => {
   const weatherData = useSelector((state) => state.fetchWeather);
+  const { userData } = useSelector((state) => state.userData);
   const dispatch = useDispatch();
   const [progress, setProgress] = useState(0);
-
-
+  
   useEffect(() => {
     dispatch(fetchWeather());
-  
-  }, [dispatch]);
+    const fetchExercises = () => {
+      const userId = userData.id;
+    axios.get(`http://192.168.56.1:5000/api/exercise/myExercises/${userId}/`)
+     .then((response) => {
+        const exercises = response.data.data;
+        dispatch(updateProgress({ total: exercises.length, done: exercises.filter(exercise => exercise.isDone).length }));
+        setProgress((exercises.filter(exercise => exercise.isDone).length / exercises.length) * 100);
+      })
+     .catch((error) => {
+        console.error(error,"oo");
+      });
+  };
 
+    fetchExercises();
+
+    const intervalId = setInterval(fetchExercises, 5000);
+
+    return () => clearInterval(intervalId);
+
+    }, [userData]);
+    
   const getWeatherIcon = (weather) => {
     switch (weather) {
       case "Clouds":
@@ -102,7 +121,7 @@ const HomePage = () => {
       {weatherData.loading ? (
         <LinearGradient
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          colors={["black", "#2ba64c"]}
+          colors={["#e8e7de", "#97BE5A"]}
         >
           <Image
             style={styles.animation}
@@ -118,7 +137,7 @@ const HomePage = () => {
         </LinearGradient>
       ) : (
         <LinearGradient
-          colors={["#e8e7de", "#2ba64c"]}
+          colors={["#e8e7de", "#97BE5A"]}
           style={styles.linearGradient}
         >
           <View style={styles.logoContainer}>
@@ -147,14 +166,15 @@ const HomePage = () => {
             )}
           <View style={styles.progressBar}>
             <AnimatedProgressWheel
-              size={200}
+              size={Dimensions.get("window").width /2}
               width={20}
               color={"green"}
               backgroundColor={"white"}
-              animateFromValue={progress}
+              animateFromValue={0}
+              progress={progress}
               showPercentageSymbol
               showProgressLabel
-              subtitle="Today's Progress"
+              subtitle="Week Progress"
             />
           </View>
             <FruitsCard />

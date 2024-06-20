@@ -43,7 +43,7 @@ export default StyleSheet.create({
     progressBar: {
       paddingTop: 20,
       alignItems: 'center',
-      height: Dimensions.get('window').height/2.6,
+      height: Dimensions.get('window').height/3,
       width: Dimensions.get('window').width/1.1,
       backgroundColor: 'rgba(0.0, 0.0, 0.0, 0.1)',
       borderRadius: 20,

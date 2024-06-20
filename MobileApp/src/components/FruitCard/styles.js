@@ -6,6 +6,13 @@ export default StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
     },
+    reminderText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      textAlign: 'center',
+      color: 'black',
+    },
     itemContainer: {
       flexDirection: 'column',
       alignItems: 'center',
@@ -23,7 +30,7 @@ export default StyleSheet.create({
       shadowRadius: 3.84,
       elevation: 5,
       width: Dimensions.get('window').width / 2.2,
-      height: Dimensions.get('window').height / 5.5,
+      height: Dimensions.get('window').height / 5.6,
     },
     itemName: {
       fontSize: 16,

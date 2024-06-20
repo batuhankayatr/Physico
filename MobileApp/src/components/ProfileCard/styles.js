@@ -41,7 +41,7 @@ export default StyleSheet.create({
     marginTop: 30,
   },
   button: {
-    backgroundColor: "#2ba64c",
+    backgroundColor: "#97BE5A",
     width: Dimensions.get("window").width / 1.4,
     height: Dimensions.get("window").height / 24,
     alignItems: "center",
@@ -51,7 +51,7 @@ export default StyleSheet.create({
     borderColor: "#2ba64c",
   },
   modalButton: {
-    backgroundColor: "#585d57",
+    backgroundColor: "#97BE5A",
     width: Dimensions.get("window").width / 1.9,
     height: Dimensions.get("window").height / 24,
     alignItems: "center",
@@ -60,7 +60,7 @@ export default StyleSheet.create({
     borderWidth: 1,
   },
   logOutButton: {
-    backgroundColor: "#2ba64c",
+    backgroundColor: "#97BE5A",
     width: Dimensions.get("window").width / 2,
     height: Dimensions.get("window").height / 27,
     alignItems: "center",
@@ -68,7 +68,7 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   buttonText: {
-    color: "white",
+    color: "#212529",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -84,7 +84,7 @@ export default StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "#2ba64c",
+    backgroundColor: "#212529",
     borderRadius: 20,
     padding: 20,
     width: Dimensions.get("window").width / 1.2,
@@ -106,7 +106,7 @@ export default StyleSheet.create({
     textAlign: "center",
     fontSize: 24,
     fontWeight: "bold",
-    color: "white",
+    color: "#97BE5A",
   },
   modalImage: {
     width: Dimensions.get("window").height / 15,

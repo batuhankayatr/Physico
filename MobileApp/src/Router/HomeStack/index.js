@@ -14,7 +14,7 @@ const HomeStack = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: "#2ba64c",
+          backgroundColor: "#97BE5A",
         },
         headerShown: false,
         tabBarShowLabel: false,
