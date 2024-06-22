@@ -1,6 +1,14 @@
 body {
   background: #ddd;
 }
+.panel-body {
+  height: 400px; /* Adjust the height as needed */
+  overflow-y: auto; /* Enable vertical scroll when content exceeds panel height */
+}
+
+.gradient-bg {
+  background: linear-gradient(to bottom, #27342f, #a6cf97);
+}
 
 .chat-box {
   height: 100%;

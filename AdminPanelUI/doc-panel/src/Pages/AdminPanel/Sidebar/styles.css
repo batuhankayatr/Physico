@@ -24,6 +24,7 @@ a.list-group-item:hover i {
 
 .listIcon {
   color: #a6cf97 !important;
+  width: 16px;
 }
 
 span {
@@ -61,3 +62,4 @@ hr {
   color: #e8e7de !important;
   transition: color 0.5s ease;
 }
+

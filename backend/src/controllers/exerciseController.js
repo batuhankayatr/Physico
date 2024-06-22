@@ -88,8 +88,6 @@ const getExercisePatient = asyncHandler(async (req, res) => {
         // Veritabanından sadece isActive = true olan verileri çek
         const activeExercises = await Exercise.find({ patientId: patientId, isActive: true });
 
-        // Veritabanından gelen sonuçları konsola yazdır
-        console.log('Fetched active exercises:', activeExercises);
 
         if (activeExercises.length > 0) {
             res.status(200).json({ success: true, data: activeExercises });

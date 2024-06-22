@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Text, View, Image, TextInput, TouchableOpacity, FlatList } from "react-native";
+import { Text, View, Image, TextInput, Button, FlatList, KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
 import styles from "./styles.js";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import io from "socket.io-client";
+import axios from "axios";
 import { useSelector } from "react-redux";
-import axios from 'axios'; // Axios kullanmak için ekleyin veya mevcut kütüphaneyi kullanın
 
 let socket;
 
@@ -13,53 +13,57 @@ const ChatPage = () => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [chatId, setChatId] = useState(""); // Sohbet kimlik bilgisini saklamak için state
+  const [chatId, setChatId] = useState(null);
 
   const { userData } = useSelector((state) => state.userData);
   const flatListRef = useRef(null);
 
-  console.log(userData);
+  useEffect(() => {
+    const getChatId = async () => {
+      try {
+        const { data } = await axios.post("http://192.168.56.1:5000/api/chat/access", {
+          doctorId: userData.doctorId[0],
+          patientId: userData.id,
+        });
+        setChatId(data._id);
+      } catch (error) {
+        console.error("Chat ID alınamadı:", error);
+      }
+    };
+
+    getChatId();
+  }, [userData]);
 
   useEffect(() => {
-    socket = io("http://192.168.56.1:5000/");
-    const userId = {
-      id: userData.id,
-    };
+    if (chatId) {
+      socket = io("http://192.168.56.1:5000/");
+      const userId = {
+        id: userData.id,
+      };
 
-    socket.emit("setup", userId);
-    socket.on("connected", () => setSocketConnected(true));
+      socket.emit("setup", userId);
+      socket.on("connected", () => setSocketConnected(true));
+      socket.emit("join chat", chatId);
+      console.log("Chat ID:", chatId)
 
-    // accessChat fonksiyonunu çağırarak doğru sohbet kimlik bilgisini alın
-    axios.post('http://192.168.56.1:5000/api/chat', {
-      doctorId: userData.doctorId, // Doktorun veya hastanın kimlik bilgisi
-      patientId: userData.id,
-    }).then(response => {
-      const chatId = response.data._id; // Örnek olarak dönen veriden sohbet kimlik bilgisini alın
-      console.log('Sohbet kimlik bilgisi:', chatId);
-      setChatId(chatId);
-      socket.emit("join chat", chatId); // Sohbet kimlik bilgisini socket.io ile bağlanmak için kullanın
-    }).catch(error => {
-      console.error('Sohbet kimlik bilgisini alırken bir hata oluştu:', error);
-    });
+      socket.on("message received", (fullMessageObject) => {
+        setMessages((prevMessages) => [...prevMessages, fullMessageObject]);
+        flatListRef.current.scrollToEnd({ animated: true });
+      });
 
-    socket.on("message received", (fullMessageObject) => {
-      setMessages((prevMessages) => [...prevMessages, fullMessageObject]);
-      // Yeni mesaj geldiğinde en alta kaydır
-      flatListRef.current.scrollToEnd({ animated: true });
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [chatId]);
 
   const sendMessage = async () => {
     if (newMessage.trim() === "") return;
 
     const messageData = {
       senderId: userData.id,
-      chatId: chatId, // State'ten sohbet kimlik bilgisini alın
-      senderType: "Patient", // Gönderen tipini doğru şekilde ayarlayın
+      chatId: chatId,
+      senderType: "Patient",
       content: newMessage,
       createdAt: new Date().toISOString(),
     };
