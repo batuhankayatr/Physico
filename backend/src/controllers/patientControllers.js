@@ -146,7 +146,48 @@ const uploadPatientImage = async (req, res) => {
     });
   };
 
+  const deletePatient = asyncHandler(async (req, res) => {
+    const { doctorId, patientId } = req.body;
+
+    
+    if (!doctorId || !patientId) {
+        res.status(400);
+        throw new Error("Gerekli bilgiler eksik");
+    }
+
+    
+    const patient = await Patient.findById(patientId);
+    if (!patient) {
+        res.status(404);
+        throw new Error("Hasta bulunamadı");
+    }
+
+    
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+        res.status(404);
+        throw new Error("Doktor bulunamadı");
+    }
+
+    
+    console.log('Doktorun hasta listesi:', doctor.patient);
+
+    if (doctor.patient.includes(patientId)) {
+        
+        doctor.patient = doctor.patient.filter(pid => pid.toString() !== patientId);
+        await doctor.save();
+
+        
+        await Patient.deleteOne({ _id: patientId });
+
+        res.json({ message: "Hasta başarıyla silindi" });
+    } else {
+        res.status(403);
+        throw new Error("Doktorun bu hastayı silme yetkisi yok");
+    }
+});
 
 
 
-module.exports = { registerPatient, authPatient, changePassword, uploadPatientImage };
+
+module.exports = { registerPatient, authPatient, changePassword, uploadPatientImage, deletePatient };
