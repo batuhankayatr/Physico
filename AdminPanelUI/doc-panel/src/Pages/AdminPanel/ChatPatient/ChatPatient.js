@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import "./chatpatient.css";
 import io from "socket.io-client";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const ENDPOINT = "http://localhost:5000";
 let socket;
@@ -10,53 +12,82 @@ function ChatPatient() {
   const [socketConnected, setSocketConnected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [chatId, setChatId] = useState(null);
+  const { userData } = useSelector((state) => state.userData);
+  const { CurrentPatient } = useSelector((state) => state.CurrentPatient);
+  const chatPanelRef = useRef(null);
+
+  console.log("ChatPatient -> userData", userData, CurrentPatient);
 
   useEffect(() => {
-    socket = io(ENDPOINT);  // socket'i burada başlatıyoruz
-    const userData = {
-      id: "user_id", // Gerçek kullanıcı ID'si ile değiştirin
-      // Gerekirse diğer kullanıcı verilerini ekleyin
+    const getChatId = async () => {
+      try {
+        const { data } = await axios.post('http://localhost:5000/api/chat/access', {
+          doctorId: userData.id,
+          patientId: CurrentPatient.id,
+        });
+        setChatId(data._id);
+      } catch (error) {
+        console.error("Chat ID alınamadı:", error);
+      }
     };
 
-    socket.emit("setup", userData);
-    socket.on("connected", () => setSocketConnected(true));
-    socket.emit('join chat', "60d21b4667d0d8992e610c85"); // Gerçek sohbet ID'si ile değiştirin
-
-    socket.on('message received', (newMessage) => {
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
+    getChatId();
   }, []);
+
+  useEffect(() => {
+    if (chatId) {
+      socket = io(ENDPOINT);
+      const userData = {
+        id: "user_id",
+      };
+
+      socket.emit("setup", userData);
+      socket.on("connected", () => setSocketConnected(true));
+      socket.emit('join chat', chatId);
+
+      const messageReceivedHandler = (newMessage) => {
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+      };
+
+      socket.on('message received', messageReceivedHandler);
+
+      return () => {
+        socket.off('message received', messageReceivedHandler);
+        socket.disconnect();
+      };
+    }
+  }, [chatId]);
+
+  useEffect(() => {
+    // Scroll to bottom when messages change
+    if (chatPanelRef.current) {
+      chatPanelRef.current.scrollTop = chatPanelRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const sendMessage = async () => {
     if (newMessage.trim() === '') return;
 
     const messageData = {
-      senderId: "60d0fe4f5311236168a109cb", // Gerçek kullanıcı ID'si ile değiştirin
-      chatId: "60d21b4667d0d8992e610c85",  // Gerçek sohbet ID'si ile değiştirin
-      senderType: "Doctor",               // veya "Patient" kullanıcıya göre değiştirin
+      senderId: userData.id,
+      chatId: chatId,
+      senderType: "Doctor",
       content: newMessage,
       createdAt: new Date().toISOString(),
     };
 
-    // Mesajı sunucuya gönder
     socket.emit('send message', messageData);
-
-    // Mesaj listesini yerel olarak güncelle
-    setMessages((prevMessages) => [...prevMessages, messageData]);
+    console.log('Message sent:', messages);
     setNewMessage('');
   };
 
   return (
-    <div className="container-fluid bg-secondary min-vh-100">
+    <div className="container-fluid bg-secondary min-vh-100 gradient-bg">
       <div className="row">
         <div id="sideBar" className="col-4 col-md-2 bg-dark vh-100 position-fixed">
           <Sidebar />
         </div>
-
         <div className="col-4 col-md-2"></div>
         <div className="col">
           <div className="container bootstrap snippets bootdeys">
@@ -65,10 +96,10 @@ function ChatPatient() {
                 <div className="panel-heading">
                   <h3 className="panel-title">Chat</h3>
                 </div>
-                <div className="panel-body">
+                <div ref={chatPanelRef} className="panel-body">
                   <div className="chats">
                     {messages.map((msg, index) => (
-                      <div key={index} className={msg.senderType === 'Doctor' ? 'chat' : 'chat chat-left'}>
+                      <div key={index} className={msg.senderDoctor ? 'chat' : 'chat chat-left'}>
                         <div className="chat-avatar">
                           <a className="avatar avatar-online" href="#" title={msg.senderType}>
                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" />
@@ -103,7 +134,6 @@ function ChatPatient() {
                   </form>
                 </div>
               </div>
-              {/* End Panel Chat */}
             </div>
           </div>
         </div>

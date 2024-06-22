@@ -1,5 +1,9 @@
 input {
-  width: 500px;
+  width: 100%;
+}
+
+.gradient-bg {
+  background: linear-gradient(to bottom, #27342f, #a6cf97);
 }
 
 button {
@@ -11,5 +15,5 @@ button:hover {
 }
 
 #existing-exercises {
-  width: 500px !important;
+  width: 100% !important;
 }

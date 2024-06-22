@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import Sidebar from "../Sidebar/Sidebar";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function CreatePatient() {
-  const navigate = useNavigate();
+  const {userData} = useSelector((state) => state.userData);
 
   const data = {
     name: "",
@@ -14,39 +15,32 @@ function CreatePatient() {
     weight: "",
     height: "",
     sex: "",
+    doctorId: userData.id,
   };
   const [user, setUser] = useState(data);
 
   const handleData = (e) => {
     setUser({
       ...user,
+      doctorId: userData.id,
       [e.target.id]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!user.email || !user.password) {
-      alert("Please fill all the fields");
-      return;
-    }
     axios
       .post("http://localhost:5000/api/patient/register", user)
       .then((response) => {
         console.log(response);
       })
       .catch((error) => {
-        if (error.response.status === 401) {
-          alert("Username or password is incorrect.");
-        } else {
-          console.error(error);
-        }
+        console.log(error, user);
       });
   };
 
   return (
-    <div className="container-fluid bg-secondary min-vh-100">
+    <div className="container-fluid bg-secondary min-vh-100 gradient-bg">
       <div className="row">
         <div
           id="sideBar"
@@ -54,93 +48,91 @@ function CreatePatient() {
         >
           <Sidebar />
         </div>
-
         <div className="col-4 col-md-2"></div>
         <div className="col">
-          <div className="container mt-5 d-flex justify-content-center">
-            <div className="card w-75">
-              <div className="card-body">
-                <form>
-                  <div className="form-group mb-4">
-                    <label htmlFor="name">Ad</label>
-                    <input
-                      onChange={handleData}
-                      type="text"
-                      className="form-control col-md-8"
-                      id="name"
-                      placeholder="Adınızı giriniz"
-                    />
-                  </div>
-                  <div className="form-group mb-4">
-                    <label htmlFor="age">Yaş</label>
-                    <input
-                      onChange={handleData}
-                      type="number"
-                      className="form-control col-md-8"
-                      id="age"
-                      placeholder="Yaşınızı giriniz"
-                    />
-                  </div>
-                  <div className="form-group mb-4">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      onChange={handleData}
-                      type="email"
-                      className="form-control col-md-8"
-                      id="email"
-                      placeholder="Email adresinizi giriniz"
-                    />
-                  </div>
-                  <div className="form-group mb-4">
-                    <label htmlFor="password">Parola</label>
-                    <input
-                      onChange={handleData}
-                      type="password"
-                      className="form-control col-md-8"
-                      id="password"
-                      placeholder="Parolanızı giriniz"
-                    />
-                  </div>
-                  <div className="form-group mb-4">
-                    <label htmlFor="weight">Kilo (kg)</label>
-                    <input
-                      onChange={handleData}
-                      type="number"
-                      className="form-control col-md-8"
-                      id="weight"
-                      placeholder="Kilonuzu giriniz"
-                    />
-                  </div>
-                  <div className="form-group mb-4">
-                    <label htmlFor="height">Boy (cm)</label>
-                    <input
-                      onChange={handleData}
-                      type="number"
-                      className="form-control col-md-8"
-                      id="height"
-                      placeholder="Boyunuzu giriniz"
-                    />
-                  </div>
-                  <div className="form-group mb-4">
-                    <label htmlFor="sex">Cinsiyet</label>
-                    <select
-                      onChange={handleData}
-                      className="form-control col-md-8"
-                      id="sex"
-                    >
-                      <option>Erkek</option>
-                      <option>Kadın</option>
-                    </select>
-                  </div>
-                  <button
-                    onClick={handleSubmit}
-                    type="submit"
-                    className="btn btn-primary btn-block mt-4"
+          <div className="container">
+            <div className="card-body">
+              <form>
+                <div className="form-group mb-4">
+                  <label htmlFor="name">Name</label>
+                  <input
+                    onChange={handleData}
+                    type="text"
+                    className="form-control col-md-8"
+                    id="name"
+                    placeholder="Enter Patient Name"
+                  />
+                </div>
+                <div className="form-group mb-4">
+                  <label htmlFor="age">Age</label>
+                  <input
+                    onChange={handleData}
+                    type="number"
+                    className="form-control col-md-8"
+                    id="age"
+                    placeholder="Enter Patient Age"
+                  />
+                </div>
+                <div className="form-group mb-4">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    onChange={handleData}
+                    type="email"
+                    className="form-control col-md-8"
+                    id="email"
+                    placeholder="Enter Patient Email"
+                  />
+                </div>
+                <div className="form-group mb-4">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    onChange={handleData}
+                    type="password"
+                    className="form-control col-md-8"
+                    id="password"
+                    placeholder="Create Patient Password"
+                  />
+                </div>
+                <div className="form-group mb-4">
+                  <label htmlFor="weight">Weight (kg)</label>
+                  <input
+                    onChange={handleData}
+                    type="number"
+                    className="form-control col-md-8"
+                    id="weight"
+                    placeholder="Enter Patient Weight"
+                  />
+                </div>
+                <div className="form-group mb-4">
+                  <label htmlFor="height">Height (cm)</label>
+                  <input
+                    onChange={handleData}
+                    type="number"
+                    className="form-control col-md-8"
+                    id="height"
+                    placeholder="Enter Patient Height"
+                  />
+                </div>
+                <div className="form-group mb-4">
+                  <label htmlFor="sex">Sex</label>
+                  <select
+                    onChange={handleData}
+                    className="form-control col-md-8"
+                    id="sex"
                   >
-                    Gönder
-                  </button>
-                </form>
-              </div>
+                    <option value="">Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                  </select>
+                </div>
+                <button
+                  onClick={handleSubmit}
+                  type="submit"
+                  className="btn btn-primary btn-block mt-4"
+                >
+                  Submit
+                </button>
+              </form>
             </div>
           </div>
         </div>

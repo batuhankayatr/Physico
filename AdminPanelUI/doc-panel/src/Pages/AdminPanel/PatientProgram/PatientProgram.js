@@ -1,11 +1,11 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "../Sidebar/Sidebar";
-import "../PatientProgram/patientProgram.css";
+import "../PatientProgram/patientProgram.css"; // Assuming this CSS file is where you will add the new gradient background style
 
 function PatientProgram() {
   return (
-    <div className="container-fluid bg-secondary min-vh-100">
+    <div className="container-fluid bg-secondary min-vh-100 gradient-bg">
       <div className="row">
         <div
           id="sideBar"
@@ -13,49 +13,44 @@ function PatientProgram() {
         >
           <Sidebar />
         </div>
-
         <div className="col-4 col-md-2"></div>
         <div className="col">
-          <div className="container mt-4">
+          <div className="container">
             <div className="row">
-              <div className="col">
+              <div className="col-md-6">
                 <div className="content-top">
-                  <div class="mt-3">
-                    <label class="form-label">Exercise Name</label>
-                    <input type="text" class="form-control" asp-for="Title" />
+                  <div className="mt-3">
+                    <label className="form-label">Exercise Name</label>
+                    <input type="text" className="form-control" asp-for="Title" />
                   </div>
-
-                  <div class="mt-3">
-                    <label class="form-label">Exercise Description</label>
-                    <input type="text" class="form-control" />
+                  <div className="mt-3">
+                    <label className="form-label">Exercise Description</label>
+                    <input type="text" className="form-control" />
                   </div>
-
-                  <div class="mt-3">
-                    <label class="form-label">Set Information</label>
-                    <input type="number" class="form-control" />
+                  <div className="mt-3">
+                    <label className="form-label">Set Information</label>
+                    <input type="number" className="form-control" />
                   </div>
-                  <div class="mt-3">
-                    <label class="form-label">Rep Information</label>
-                    <input type="number" class="form-control" />
+                  <div className="mt-3">
+                    <label className="form-label">Rep Information</label>
+                    <input type="number" className="form-control" />
                   </div>
-
-                  <div class="mt-3">
-                    <label class="form-label">Video Link </label>
-                    <input type="text" class="form-control" />
+                  <div className="mt-3">
+                    <label className="form-label">Video Link</label>
+                    <input type="text" className="form-control" />
                   </div>
-
-                  <div class="mt-3">
-                    <button type="submit" class="btn btn-primary">
+                  <div className="mt-3">
+                    <button type="submit" className="btn btn-primary">
                       Add Exercise
                     </button>
                   </div>
                 </div>
-                <hr />
+              </div>
+              <div className="col-md-6">
                 <div className="content-bottom">
                   <div
                     id="existing-exercises"
                     className="card"
-                    style={{ width: "18rem" }}
                   >
                     <div className="card-header">Existing Exercises</div>
                     <ul className="list-group list-group-flush">

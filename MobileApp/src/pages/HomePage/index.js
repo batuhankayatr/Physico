@@ -30,7 +30,7 @@ const HomePage = () => {
         setProgress((exercises.filter(exercise => exercise.isDone).length / exercises.length) * 100);
       })
      .catch((error) => {
-        console.error(error,"oo");
+        console.error("There is no exercise data for this user", error);
       });
   };
 

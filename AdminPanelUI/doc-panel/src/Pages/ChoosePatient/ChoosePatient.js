@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../ChoosePatient/style.css";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addCurrentPatient } from "../../Redux/CurrentPatient";
 
 function ChoosePatient() {
   const { userData } = useSelector((state) => state.userData);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
@@ -30,9 +31,25 @@ function ChoosePatient() {
     if (userData.id) {
       fetchPatients();
     }
-  }, []);
+  }, [userData]);
 
   const patientsToRender = patients.data ? patients.data : [];
+
+  const navigateToPatientDetails = (patient) => {
+    dispatch(
+      addCurrentPatient({
+        id: patient._id,
+        name: patient.name,
+        pic: patient.pic,
+        age: patient.age,
+        weight: patient.weight,
+        height: patient.height,
+        email: patient.email,
+        sex: patient.sex,
+      })
+    )
+    navigate("/patientinformation");
+  };
 
   return (
     <div className="wrapper">
@@ -55,8 +72,8 @@ function ChoosePatient() {
             </tr>
           </thead>
           <tbody>
-            {patientsToRender.map((patient) => (
-              <tr key={patient.id}>
+            {patientsToRender.map((patient, index) => (
+              <tr key={index}>
                 <td className="align-middle">
                   <img
                     className="patient-photo"
@@ -65,13 +82,11 @@ function ChoosePatient() {
                   />
                 </td>
                 <td className="align-middle">{patient.name}</td>
-                <td className="align-middle">{patient.id}</td>
+                <td className="align-middle">{patient._id}</td>
                 <td className="align-middle">
                   <h4>
                     <a
-                      onClick={() =>
-                        navigate("/patientinformation", { patient })
-                      }
+                      onClick={() => navigateToPatientDetails(patient)}
                     >
                       <i className="bi bi-arrow-right-square-fill"></i>
                     </a>

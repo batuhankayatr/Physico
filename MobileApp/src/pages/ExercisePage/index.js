@@ -21,7 +21,7 @@ const ExercisePage = () => {
           setGroupedExercises(grouped);
         })
         .catch((error) => {
-          console.error(error);
+          console.error("There is no exercise data for this user", error);
         });
     };
 

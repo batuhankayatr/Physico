@@ -2,7 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { persistStore, persistReducer } from "redux-persist";
 import { combineReducers } from "redux";
-import userData from "./userData";
+import userData from "./UserData";
+import CurrentPatient from "./CurrentPatient";
 
 const persistConfig = {
   key: "root",
@@ -11,6 +12,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   userData: userData,
+  CurrentPatient: CurrentPatient,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
